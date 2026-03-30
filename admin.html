@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Manager — CJ Davitt</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f2f0ec;color:#1a1816;min-height:100vh;}
+img{max-width:100%;display:block;}
+
+/* ── VARIABLES ── */
+:root{
+  --ink:#1a1816;--white:#fff;--paper:#f2f0ec;--stone:#e4e2dc;
+  --pebble:#b8b4ac;--drift:#7a7670;--anchor:#3a3834;
+  --green:#2d6a4f;--green-bg:#d4edda;
+  --red:#c0392b;--red-bg:#f8d7da;
+  --amber:#856404;--amber-bg:#fff3cd;
+  --blue:#0c5460;--blue-bg:#cce5ff;
+  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.08);
+}
+
+/* ── LOGIN ── */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.login-card{background:var(--white);border:1px solid var(--stone);padding:48px 40px;max-width:360px;width:100%;text-align:center;}
+.login-logo{font-family:'Georgia',serif;font-size:1.4rem;letter-spacing:.08em;margin-bottom:4px;}
+.login-sub{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--pebble);margin-bottom:32px;}
+.login-label{display:block;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--drift);margin-bottom:6px;text-align:left;}
+.login-input{width:100%;border:1px solid var(--stone);background:var(--paper);padding:11px 14px;font-size:.95rem;margin-bottom:16px;outline:none;}
+.login-input:focus{border-color:var(--ink);}
+.login-btn{width:100%;background:var(--ink);color:var(--white);border:none;padding:13px;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;}
+.login-err{color:var(--red);font-size:.8rem;margin-top:10px;display:none;}
+
+/* ── LAYOUT ── */
+.app{display:none;min-height:100vh;}
+.topbar{background:var(--ink);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topbar-brand{font-family:'Georgia',serif;font-size:1rem;color:rgba(255,255,255,.85);letter-spacing:.06em;}
+.topbar-sub{font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:1px;}
+.topbar-logout{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);cursor:pointer;border:none;background:none;padding:6px 12px;border:1px solid rgba(255,255,255,.1);}
+.topbar-logout:hover{color:rgba(255,255,255,.7);}
+
+.nav-tabs{background:var(--white);border-bottom:1px solid var(--stone);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:57px;z-index:99;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.nav-tab{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--pebble);background:none;border:none;padding:14px 20px;cursor:pointer;position:relative;white-space:nowrap;transition:color .2s;}
+.nav-tab::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--ink);transform:scaleX(0);transition:transform .2s;}
+.nav-tab.active{color:var(--ink);}
+.nav-tab.active::after{transform:scaleX(1);}
+
+.panel{display:none;padding:20px;}
+.panel.active{display:block;}
+
+/* ── CARDS ── */
+.card{background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
+.card-title{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--pebble);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--stone);}
+
+/* ── STATS ROW ── */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+.stat{background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);padding:16px 12px;text-align:center;}
+.stat-n{font-size:1.8rem;font-weight:600;color:var(--ink);line-height:1;}
+.stat-l{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pebble);margin-top:4px;}
+
+/* ── BADGES ── */
+.badge{display:inline-block;font-size:.6rem;letter-spacing:.08em;padding:3px 9px;border-radius:100px;font-weight:500;white-space:nowrap;}
+.badge-initiated{background:var(--amber-bg);color:var(--amber);}
+.badge-responded{background:var(--blue-bg);color:var(--blue);}
+.badge-negotiating{background:#e8d5ff;color:#6b21a8;}
+.badge-sold{background:var(--green-bg);color:var(--green);}
+.badge-closed{background:var(--paper);color:var(--pebble);border:1px solid var(--stone);}
+.badge-noresponse{background:var(--red-bg);color:var(--red);}
+.badge-available{background:var(--green-bg);color:var(--green);}
+.badge-atgallery{background:var(--blue-bg);color:var(--blue);}
+.badge-inprogress{background:#e2e3e5;color:#383d41;}
+.badge-reserved{background:var(--amber-bg);color:var(--amber);}
+.badge-archived{background:var(--paper);color:var(--pebble);}
+.badge-upcoming{background:var(--blue-bg);color:var(--blue);}
+.badge-ongoing{background:var(--green-bg);color:var(--green);}
+.badge-completed{background:var(--paper);color:var(--pebble);border:1px solid var(--stone);}
+.badge-cancelled{background:var(--red-bg);color:var(--red);}
+.badge-published{background:var(--green-bg);color:var(--green);}
+.badge-draft{background:var(--amber-bg);color:var(--amber);}
+.badge-hidden{background:var(--paper);color:var(--pebble);border:1px solid var(--stone);}
+
+/* ── DOT ── */
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.dot-green{background:#2d6a4f;}
+.dot-red{background:#c0392b;}
+.dot-grey{background:#b8b4ac;}
+.dot-amber{background:#d97706;}
+
+/* ── INQUIRY CARDS ── */
+.inq-card{background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:box-shadow .2s;}
+.inq-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.inq-header{padding:14px 16px;display:flex;align-items:flex-start;gap:12px;cursor:pointer;}
+.inq-thumb{width:52px;height:52px;background:var(--paper);border:1px solid var(--stone);border-radius:4px;object-fit:cover;flex-shrink:0;}
+.inq-thumb-placeholder{width:52px;height:52px;background:var(--paper);border:1px solid var(--stone);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--pebble);flex-shrink:0;text-align:center;line-height:1.2;}
+.inq-meta{flex:1;min-width:0;}
+.inq-name{font-size:.95rem;font-weight:500;color:var(--ink);margin-bottom:2px;}
+.inq-painting{font-size:.78rem;color:var(--drift);margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.inq-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.inq-date{font-size:.65rem;color:var(--pebble);}
+.inq-chevron{color:var(--pebble);transition:transform .25s;font-size:.8rem;flex-shrink:0;}
+.inq-card.open .inq-chevron{transform:rotate(180deg);}
+.inq-body{display:none;padding:0 16px 16px;border-top:1px solid var(--stone);}
+.inq-card.open .inq-body{display:block;}
+.inq-message{font-size:.84rem;color:var(--drift);line-height:1.7;background:var(--paper);padding:12px;border-radius:4px;margin:12px 0;}
+.inq-contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.inq-contact-item{font-size:.75rem;color:var(--drift);}
+.inq-contact-item strong{display:block;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pebble);margin-bottom:2px;font-weight:400;}
+
+/* ── FORMS ── */
+.form-group{margin-bottom:14px;}
+.form-label{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--drift);margin-bottom:5px;}
+.form-input,.form-select,.form-textarea{width:100%;border:1px solid var(--stone);background:var(--paper);padding:10px 12px;font-size:.9rem;color:var(--ink);outline:none;border-radius:4px;font-family:inherit;transition:border-color .2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--ink);}
+.form-textarea{resize:vertical;min-height:80px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-actions{display:flex;gap:10px;margin-top:16px;}
+.btn{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;padding:10px 20px;border:none;cursor:pointer;transition:background .2s;border-radius:4px;}
+.btn-primary{background:var(--ink);color:var(--white);}
+.btn-primary:hover{background:#2c2c2a;}
+.btn-secondary{background:var(--paper);color:var(--anchor);border:1px solid var(--stone);}
+.btn-secondary:hover{background:var(--stone);}
+.btn-danger{background:var(--red-bg);color:var(--red);border:1px solid #f5c6cb;}
+.btn-danger:hover{background:#f5c6cb;}
+.btn-sm{padding:7px 14px;font-size:.58rem;}
+.btn-block{width:100%;}
+
+/* ── WORKS GRID ── */
+.works-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.work-card{background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);overflow:hidden;}
+.work-img{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--paper);}
+.work-img-placeholder{width:100%;aspect-ratio:4/3;background:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--pebble);}
+.work-body{padding:12px;}
+.work-title{font-size:.9rem;font-weight:500;color:var(--ink);margin-bottom:3px;}
+.work-medium{font-size:.7rem;color:var(--drift);margin-bottom:8px;}
+.work-actions{display:flex;gap:6px;flex-wrap:wrap;}
+
+/* ── EVENTS LIST ── */
+.event-item{background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;}
+.event-date-block{background:var(--ink);color:var(--white);padding:8px 12px;border-radius:4px;text-align:center;flex-shrink:0;min-width:52px;}
+.event-date-day{font-size:1.2rem;font-weight:600;line-height:1;}
+.event-date-mon{font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;opacity:.6;}
+.event-info{flex:1;min-width:0;}
+.event-name{font-size:.95rem;font-weight:500;color:var(--ink);margin-bottom:2px;}
+.event-venue{font-size:.78rem;color:var(--drift);margin-bottom:5px;}
+.event-badges{display:flex;gap:6px;flex-wrap:wrap;}
+.event-actions{display:flex;gap:6px;flex-shrink:0;}
+
+/* ── MODAL ── */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end;justify-content:center;}
+.modal-backdrop.open{display:flex;}
+.modal{background:var(--white);width:100%;max-width:600px;max-height:90vh;overflow-y:auto;border-radius:12px 12px 0 0;padding:24px 20px 32px;}
+.modal-handle{width:36px;height:4px;background:var(--stone);border-radius:2px;margin:0 auto 20px;}
+.modal-title{font-size:1rem;font-weight:500;color:var(--ink);margin-bottom:20px;}
+@media(min-width:600px){
+  .modal-backdrop{align-items:center;}
+  .modal{border-radius:12px;max-height:85vh;}
+}
+
+/* ── FILTER BAR ── */
+.filter-bar{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;}
+.filter-bar::-webkit-scrollbar{display:none;}
+.filter-chip{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border:1px solid var(--stone);background:var(--white);color:var(--pebble);cursor:pointer;border-radius:100px;white-space:nowrap;transition:all .2s;}
+.filter-chip.active{background:var(--ink);color:var(--white);border-color:var(--ink);}
+
+/* ── LOADING ── */
+.loading{text-align:center;padding:40px;color:var(--pebble);font-size:.82rem;}
+.loading-spinner{width:24px;height:24px;border:2px solid var(--stone);border-top-color:var(--ink);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:48px 20px;color:var(--pebble);}
+.empty-icon{font-size:2rem;margin-bottom:12px;opacity:.4;}
+.empty-text{font-size:.84rem;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:var(--white);padding:12px 24px;border-radius:100px;font-size:.78rem;z-index:300;transition:transform .3s;pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+@media(min-width:768px){
+  .panel{padding:24px;}
+  .works-grid{grid-template-columns:repeat(3,1fr);}
+  .stats{grid-template-columns:repeat(6,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-card">
+    <div class="login-logo">CJ Davitt</div>
+    <div class="login-sub">Studio Manager</div>
+    <label class="login-label">Password</label>
+    <input type="password" class="login-input" id="passwordInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')login()"/>
+    <button class="login-btn" onclick="login()">Sign In</button>
+    <div class="login-err" id="loginErr">Incorrect password</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+  <div class="topbar">
+    <div>
+      <div class="topbar-brand">CJ Davitt</div>
+      <div class="topbar-sub">Studio Manager</div>
+    </div>
+    <button class="topbar-logout" onclick="logout()">Sign Out</button>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPanel('inquiries',this)">Inquiries <span id="inqBadge"></span></button>
+    <button class="nav-tab" onclick="showPanel('works',this)">Works</button>
+    <button class="nav-tab" onclick="showPanel('events',this)">Events</button>
+  </div>
+
+  <!-- INQUIRIES PANEL -->
+  <div class="panel active" id="panel-inquiries">
+    <div class="stats" id="inqStats">
+      <div class="stat"><div class="stat-n" id="s-open">—</div><div class="stat-l">Open</div></div>
+      <div class="stat"><div class="stat-n" id="s-responded">—</div><div class="stat-l">Responded</div></div>
+      <div class="stat"><div class="stat-n" id="s-sold">—</div><div class="stat-l">Sold</div></div>
+    </div>
+    <div class="filter-bar">
+      <button class="filter-chip active" onclick="filterInquiries('all',this)">All</button>
+      <button class="filter-chip" onclick="filterInquiries('Initiated',this)">Initiated</button>
+      <button class="filter-chip" onclick="filterInquiries('Responded',this)">Responded</button>
+      <button class="filter-chip" onclick="filterInquiries('Negotiating',this)">Negotiating</button>
+      <button class="filter-chip" onclick="filterInquiries('Sold',this)">Sold</button>
+      <button class="filter-chip" onclick="filterInquiries('Closed',this)">Closed</button>
+    </div>
+    <div id="inqList"><div class="loading"><div class="loading-spinner"></div>Loading inquiries…</div></div>
+  </div>
+
+  <!-- WORKS PANEL -->
+  <div class="panel" id="panel-works">
+    <button class="btn btn-primary btn-block" style="margin-bottom:16px;" onclick="openAddWork()">+ Add New Painting</button>
+    <div class="filter-bar">
+      <button class="filter-chip active" onclick="filterWorks('all',this)">All</button>
+      <button class="filter-chip" onclick="filterWorks('Available',this)">Available</button>
+      <button class="filter-chip" onclick="filterWorks('Sold',this)">Sold</button>
+      <button class="filter-chip" onclick="filterWorks('At Gallery',this)">At Gallery</button>
+      <button class="filter-chip" onclick="filterWorks('In Progress',this)">In Progress</button>
+      <button class="filter-chip" onclick="filterWorks('Draft',this)">Draft</button>
+    </div>
+    <div class="works-grid" id="worksList"><div class="loading"><div class="loading-spinner"></div>Loading works…</div></div>
+  </div>
+
+  <!-- EVENTS PANEL -->
+  <div class="panel" id="panel-events">
+    <button class="btn btn-primary btn-block" style="margin-bottom:16px;" onclick="openAddEvent()">+ Add Event / Appearance</button>
+    <div class="filter-bar">
+      <button class="filter-chip active" onclick="filterEvents('all',this)">All</button>
+      <button class="filter-chip" onclick="filterEvents('Upcoming',this)">Upcoming</button>
+      <button class="filter-chip" onclick="filterEvents('Ongoing',this)">Ongoing</button>
+      <button class="filter-chip" onclick="filterEvents('Completed',this)">Completed</button>
+    </div>
+    <div id="eventsList"><div class="loading"><div class="loading-spinner"></div>Loading events…</div></div>
+  </div>
+</div>
+
+<!-- INQUIRY EDIT MODAL -->
+<div class="modal-backdrop" id="inqModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="inqModalTitle">Inquiry Details</div>
+    <input type="hidden" id="inqEditId"/>
+    <div class="form-group">
+      <label class="form-label">Status</label>
+      <select class="form-select" id="inqEditStatus">
+        <option>Initiated</option>
+        <option>Responded</option>
+        <option>Negotiating</option>
+        <option>Sold</option>
+        <option>Closed</option>
+        <option>No Response</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">CJ Notes</label>
+      <textarea class="form-textarea" id="inqEditNotes" placeholder="Internal notes…"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Follow Up Date</label>
+      <input type="date" class="form-input" id="inqEditFollowUp"/>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="saveInquiry()">Save Changes</button>
+      <button class="btn btn-secondary" onclick="closeModal('inqModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT WORK MODAL -->
+<div class="modal-backdrop" id="workModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="workModalTitle">Add Painting</div>
+    <input type="hidden" id="workEditId"/>
+    <div class="form-group">
+      <label class="form-label">Title *</label>
+      <input type="text" class="form-input" id="wTitle" placeholder="e.g. Six Bobbers"/>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Medium *</label>
+        <select class="form-select" id="wMedium">
+          <option value="">Select…</option>
+          <option>Oil on Canvas</option>
+          <option>Oil on Panel</option>
+          <option>Colored Pencil</option>
+          <option>Mixed Media</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-select" id="wCategory">
+          <option value="">Select…</option>
+          <option>Bobbers & Tackle</option>
+          <option>Seascapes</option>
+          <option>Marine Life</option>
+          <option>Figures</option>
+          <option>Landscapes</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Width (inches)</label>
+        <input type="number" class="form-input" id="wWidth" placeholder="24"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Height (inches)</label>
+        <input type="number" class="form-input" id="wHeight" placeholder="36"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Date Completed</label>
+        <input type="month" class="form-input" id="wDateCompleted"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Availability</label>
+        <select class="form-select" id="wAvailability">
+          <option>Available</option>
+          <option>In Progress</option>
+          <option>At Gallery</option>
+          <option>Reserved</option>
+          <option>Sold</option>
+          <option>Archived</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Gallery Location</label>
+        <select class="form-select" id="wGallery">
+          <option>Studio</option>
+          <option>Frederick Gallery</option>
+          <option>Autumn Elise</option>
+          <option>Noon Designs</option>
+          <option>N/A</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Site Visibility</label>
+        <select class="form-select" id="wVisibility">
+          <option>Draft</option>
+          <option>Published</option>
+          <option>Hidden</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Featured on site?</label>
+        <select class="form-select" id="wFeatured">
+          <option>No</option>
+          <option>Yes</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Asking Price ($)</label>
+        <input type="number" class="form-input" id="wAskingPrice" placeholder="2400"/>
+      </div>
+    </div>
+    <!-- Sold fields — shown conditionally -->
+    <div id="soldFields" style="display:none;border-top:1px solid var(--stone);padding-top:14px;margin-top:4px;">
+      <div style="font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--pebble);margin-bottom:12px;">Sold Details</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Final Sold Price ($)</label>
+          <input type="number" class="form-input" id="wSoldPrice"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date Sold</label>
+          <input type="date" class="form-input" id="wDateSold"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Collector Name</label>
+          <input type="text" class="form-input" id="wCollectorName"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Collector Email</label>
+          <input type="email" class="form-input" id="wCollectorEmail"/>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Image URL</label>
+      <input type="text" class="form-input" id="wImageUrl" placeholder="Paste image URL or leave blank"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">CJ Notes</label>
+      <textarea class="form-textarea" id="wNotes" placeholder="Any notes about this piece…" rows="3"></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="saveWork()">Save Painting</button>
+      <button class="btn btn-secondary" onclick="closeModal('workModal')">Cancel</button>
+      <button class="btn btn-danger btn-sm" id="deleteWorkBtn" style="margin-left:auto;" onclick="deleteWork()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT EVENT MODAL -->
+<div class="modal-backdrop" id="eventModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="eventModalTitle">Add Event</div>
+    <input type="hidden" id="eventEditId"/>
+    <div class="form-group">
+      <label class="form-label">Event Name *</label>
+      <input type="text" class="form-input" id="evName" placeholder="e.g. Spring Show — Frederick Gallery"/>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Event Type</label>
+        <select class="form-select" id="evType">
+          <option value="">Select…</option>
+          <option>Gallery Opening</option>
+          <option>Art Fair</option>
+          <option>Solo Show</option>
+          <option>Group Show</option>
+          <option>Private Event</option>
+          <option>Pop-Up</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <select class="form-select" id="evStatus">
+          <option>Upcoming</option>
+          <option>Ongoing</option>
+          <option>Completed</option>
+          <option>Cancelled</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Venue Name</label>
+      <input type="text" class="form-input" id="evVenue" placeholder="Frederick Gallery"/>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">City</label>
+        <input type="text" class="form-input" id="evCity" placeholder="Spring Lake"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">State</label>
+        <select class="form-select" id="evState">
+          <option>NJ</option><option>NY</option><option>PA</option>
+          <option>CT</option><option>DE</option><option>MD</option><option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Start Date</label>
+        <input type="date" class="form-input" id="evStartDate"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">End Date</label>
+        <input type="date" class="form-input" id="evEndDate"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea class="form-textarea" id="evDesc" placeholder="Brief description shown on the website…" rows="3"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Website / Link</label>
+        <input type="url" class="form-input" id="evWebsite" placeholder="https://…"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Show on Site</label>
+        <select class="form-select" id="evShowOnSite">
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="saveEvent()">Save Event</button>
+      <button class="btn btn-secondary" onclick="closeModal('eventModal')">Cancel</button>
+      <button class="btn btn-danger btn-sm" id="deleteEventBtn" style="margin-left:auto;display:none;" onclick="deleteEvent()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// CONFIG — replace with your deployed Apps Script URL
+// ═══════════════════════════════════════════════════
+const SCRIPT_URL = 'REPLACE_WITH_YOUR_APPS_SCRIPT_URL';
+const ADMIN_PASSWORD = 'cjdavitt2026';
+
+// ── STATE ──
+let allInquiries = [];
+let allWorks = [];
+let allEvents = [];
+let currentFilter = { inquiries: 'all', works: 'all', events: 'all' };
+
+// ═══════════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════════
+function login() {
+  const pw = document.getElementById('passwordInput').value;
+  if (pw === ADMIN_PASSWORD) {
+    sessionStorage.setItem('cj_admin', '1');
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    loadAll();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('passwordInput').value = '';
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('cj_admin');
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
+
+if (sessionStorage.getItem('cj_admin')) {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadAll();
+}
+
+// ═══════════════════════════════════════════════════
+// API
+// ═══════════════════════════════════════════════════
+async function api(action, data = {}) {
+  const res = await fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action, password: ADMIN_PASSWORD, ...data }),
+  });
+  return res.json();
+}
+
+async function loadAll() {
+  loadInquiries();
+  loadWorks();
+  loadEvents();
+}
+
+// ═══════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════
+function showPanel(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ═══════════════════════════════════════════════════
+// INQUIRIES
+// ═══════════════════════════════════════════════════
+async function loadInquiries() {
+  const res = await api('get_inquiries');
+  if (!res.success) return;
+  allInquiries = (res.data || []).reverse();
+  renderInquiries();
+  updateInqStats();
+}
+
+function updateInqStats() {
+  const open = allInquiries.filter(i => i['Status'] === 'Initiated').length;
+  const responded = allInquiries.filter(i => i['Status'] === 'Responded').length;
+  const sold = allInquiries.filter(i => i['Status'] === 'Sold').length;
+  document.getElementById('s-open').textContent = open;
+  document.getElementById('s-responded').textContent = responded;
+  document.getElementById('s-sold').textContent = sold;
+  const badge = document.getElementById('inqBadge');
+  badge.textContent = open > 0 ? ` (${open})` : '';
+}
+
+function filterInquiries(status, btn) {
+  currentFilter.inquiries = status;
+  document.querySelectorAll('.filter-bar .filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  renderInquiries();
+}
+
+function renderInquiries() {
+  const list = document.getElementById('inqList');
+  const filtered = currentFilter.inquiries === 'all'
+    ? allInquiries
+    : allInquiries.filter(i => i['Status'] === currentFilter.inquiries);
+
+  if (!filtered.length) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">📬</div><div class="empty-text">No inquiries found</div></div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(inq => `
+    <div class="inq-card" id="inq-${inq['Inquiry ID']}">
+      <div class="inq-header" onclick="toggleInq('${inq['Inquiry ID']}')">
+        <div class="inq-thumb-placeholder">${inq['Painting Title'] ? inq['Painting Title'].substring(0,12) : '—'}</div>
+        <div class="inq-meta">
+          <div class="inq-name">${inq['First Name']} ${inq['Last Name']}</div>
+          <div class="inq-painting">${inq['Painting Title'] || 'General inquiry'}</div>
+          <div class="inq-row">
+            <span class="badge ${badgeClass(inq['Status'])}">${inq['Status']}</span>
+            <span class="inq-date">${inq['Date Received']}</span>
+          </div>
+        </div>
+        <div class="inq-chevron">▾</div>
+      </div>
+      <div class="inq-body">
+        <div class="inq-contact-grid">
+          <div class="inq-contact-item"><strong>Email</strong><a href="mailto:${inq['Email']}" style="color:var(--ink);">${inq['Email']}</a></div>
+          <div class="inq-contact-item"><strong>Phone</strong>${inq['Phone'] || '—'}</div>
+          <div class="inq-contact-item"><strong>Type</strong>${inq['Inquiry Type'] || '—'}</div>
+          <div class="inq-contact-item"><strong>ID</strong>${inq['Inquiry ID']}</div>
+        </div>
+        <div class="inq-message">${inq['Message']}</div>
+        ${inq['CJ Notes'] ? `<div style="font-size:.78rem;color:var(--drift);margin-bottom:10px;"><strong style="font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pebble);font-weight:400;display:block;margin-bottom:3px;">Notes</strong>${inq['CJ Notes']}</div>` : ''}
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-primary btn-sm" onclick="openEditInquiry('${inq['Inquiry ID']}')">Edit Status / Notes</button>
+          <a href="mailto:${inq['Email']}?subject=Re: ${encodeURIComponent(inq['Painting Title'] || 'Your Inquiry')}" class="btn btn-secondary btn-sm" style="text-decoration:none;">Reply via Email</a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleInq(id) {
+  document.getElementById('inq-' + id).classList.toggle('open');
+}
+
+function openEditInquiry(id) {
+  const inq = allInquiries.find(i => i['Inquiry ID'] === id);
+  if (!inq) return;
+  document.getElementById('inqEditId').value = id;
+  document.getElementById('inqModalTitle').textContent = `${inq['First Name']} ${inq['Last Name']}`;
+  document.getElementById('inqEditStatus').value = inq['Status'];
+  document.getElementById('inqEditNotes').value = inq['CJ Notes'] || '';
+  document.getElementById('inqEditFollowUp').value = inq['Follow Up Date'] || '';
+  openModal('inqModal');
+}
+
+async function saveInquiry() {
+  const id = document.getElementById('inqEditId').value;
+  const res = await api('update_inquiry', {
+    id,
+    status: document.getElementById('inqEditStatus').value,
+    notes: document.getElementById('inqEditNotes').value,
+    followUpDate: document.getElementById('inqEditFollowUp').value,
+  });
+  if (res.success) {
+    closeModal('inqModal');
+    showToast('Inquiry updated');
+    loadInquiries();
+  } else {
+    showToast('Error: ' + res.error);
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// WORKS
+// ═══════════════════════════════════════════════════
+async function loadWorks() {
+  const res = await api('get_works');
+  if (!res.success) return;
+  allWorks = res.data || [];
+  renderWorks();
+}
+
+function filterWorks(filter, btn) {
+  currentFilter.works = filter;
+  document.querySelectorAll('#panel-works .filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  renderWorks();
+}
+
+function renderWorks() {
+  const list = document.getElementById('worksList');
+  let filtered = allWorks;
+  if (currentFilter.works === 'Draft') {
+    filtered = allWorks.filter(w => w['Visibility'] === 'Draft');
+  } else if (currentFilter.works !== 'all') {
+    filtered = allWorks.filter(w => w['Availability'] === currentFilter.works);
+  }
+
+  if (!filtered.length) {
+    list.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🎨</div><div class="empty-text">No paintings found</div></div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(w => {
+    const dotClass = w['Availability'] === 'Available' ? 'dot-green' : w['Availability'] === 'Sold' ? 'dot-red' : 'dot-grey';
+    const dims = (w['Width (in)'] && w['Height (in)']) ? `${w['Width (in)']}″ × ${w['Height (in)']}″` : '';
+    return `
+    <div class="work-card">
+      ${w['Image URL'] ? `<img src="${w['Image URL']}" class="work-img" alt="${w['Title']}" onerror="this.style.display='none'"/>` : `<div class="work-img-placeholder">No image</div>`}
+      <div class="work-body">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+          <span class="dot ${dotClass}"></span>
+          <div class="work-title">${w['Title']}</div>
+        </div>
+        <div class="work-medium">${w['Medium']}${dims ? ' · ' + dims : ''}</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;">
+          <span class="badge ${badgeClass(w['Availability'])}">${w['Availability']}</span>
+          <span class="badge ${badgeClass(w['Visibility'])}">${w['Visibility']}</span>
+          ${w['Featured'] === 'Yes' ? '<span class="badge" style="background:#f3e8ff;color:#6b21a8;">Featured</span>' : ''}
+        </div>
+        <div class="work-actions">
+          <button class="btn btn-secondary btn-sm" onclick="openEditWork('${w['Work ID']}')">Edit</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openAddWork() {
+  document.getElementById('workModalTitle').textContent = 'Add Painting';
+  document.getElementById('workEditId').value = '';
+  document.getElementById('deleteWorkBtn').style.display = 'none';
+  ['wTitle','wWidth','wHeight','wAskingPrice','wSoldPrice','wDateSold','wCollectorName','wCollectorEmail','wImageUrl','wNotes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('wMedium').value = '';
+  document.getElementById('wCategory').value = '';
+  document.getElementById('wAvailability').value = 'Available';
+  document.getElementById('wGallery').value = 'Studio';
+  document.getElementById('wVisibility').value = 'Draft';
+  document.getElementById('wFeatured').value = 'No';
+  document.getElementById('soldFields').style.display = 'none';
+  document.getElementById('wDateCompleted').value = '';
+  openModal('workModal');
+}
+
+function openEditWork(id) {
+  const w = allWorks.find(w => w['Work ID'] === id);
+  if (!w) return;
+  document.getElementById('workModalTitle').textContent = 'Edit Painting';
+  document.getElementById('workEditId').value = id;
+  document.getElementById('deleteWorkBtn').style.display = 'block';
+  document.getElementById('wTitle').value = w['Title'] || '';
+  document.getElementById('wMedium').value = w['Medium'] || '';
+  document.getElementById('wCategory').value = w['Category'] || '';
+  document.getElementById('wWidth').value = w['Width (in)'] || '';
+  document.getElementById('wHeight').value = w['Height (in)'] || '';
+  document.getElementById('wDateCompleted').value = w['Date Completed'] || '';
+  document.getElementById('wAvailability').value = w['Availability'] || 'Available';
+  document.getElementById('wGallery').value = w['Gallery Location'] || 'Studio';
+  document.getElementById('wVisibility').value = w['Visibility'] || 'Draft';
+  document.getElementById('wFeatured').value = w['Featured'] || 'No';
+  document.getElementById('wAskingPrice').value = w['Asking Price'] || '';
+  document.getElementById('wSoldPrice').value = w['Final Sold Price'] || '';
+  document.getElementById('wDateSold').value = w['Date Sold'] || '';
+  document.getElementById('wCollectorName').value = w['Collector Name'] || '';
+  document.getElementById('wCollectorEmail').value = w['Collector Email'] || '';
+  document.getElementById('wImageUrl').value = w['Image URL'] || '';
+  document.getElementById('wNotes').value = w['CJ Notes'] || '';
+  document.getElementById('soldFields').style.display = w['Availability'] === 'Sold' ? 'block' : 'none';
+  openModal('workModal');
+}
+
+document.getElementById('wAvailability').addEventListener('change', function() {
+  document.getElementById('soldFields').style.display = this.value === 'Sold' ? 'block' : 'none';
+});
+
+async function saveWork() {
+  const id = document.getElementById('workEditId').value;
+  const isNew = !id;
+  const payload = {
+    title: document.getElementById('wTitle').value,
+    medium: document.getElementById('wMedium').value,
+    category: document.getElementById('wCategory').value,
+    width: document.getElementById('wWidth').value,
+    height: document.getElementById('wHeight').value,
+    dateCompleted: document.getElementById('wDateCompleted').value,
+    availability: document.getElementById('wAvailability').value,
+    galleryLocation: document.getElementById('wGallery').value,
+    visibility: document.getElementById('wVisibility').value,
+    featured: document.getElementById('wFeatured').value,
+    askingPrice: document.getElementById('wAskingPrice').value,
+    finalSoldPrice: document.getElementById('wSoldPrice').value,
+    dateSold: document.getElementById('wDateSold').value,
+    collectorName: document.getElementById('wCollectorName').value,
+    collectorEmail: document.getElementById('wCollectorEmail').value,
+    imageUrl: document.getElementById('wImageUrl').value,
+    notes: document.getElementById('wNotes').value,
+  };
+
+  if (!payload.title) { showToast('Title is required'); return; }
+
+  const action = isNew ? 'add_work' : 'update_work';
+  if (!isNew) payload.id = id;
+
+  const res = await api(action, payload);
+  if (res.success) {
+    closeModal('workModal');
+    showToast(isNew ? 'Painting added' : 'Painting updated');
+    loadWorks();
+  } else {
+    showToast('Error: ' + res.error);
+  }
+}
+
+async function deleteWork() {
+  if (!confirm('Delete this painting? This cannot be undone.')) return;
+  const id = document.getElementById('workEditId').value;
+  const res = await api('delete_work', { id });
+  if (res.success) {
+    closeModal('workModal');
+    showToast('Painting deleted');
+    loadWorks();
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// EVENTS
+// ═══════════════════════════════════════════════════
+async function loadEvents() {
+  const res = await api('get_events');
+  if (!res.success) return;
+  allEvents = res.data || [];
+  renderEvents();
+}
+
+function filterEvents(filter, btn) {
+  currentFilter.events = filter;
+  document.querySelectorAll('#panel-events .filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  renderEvents();
+}
+
+function renderEvents() {
+  const list = document.getElementById('eventsList');
+  const filtered = currentFilter.events === 'all'
+    ? allEvents
+    : allEvents.filter(e => e['Status'] === currentFilter.events);
+
+  if (!filtered.length) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">📅</div><div class="empty-text">No events found</div></div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(ev => {
+    const startDate = ev['Start Date'] ? new Date(ev['Start Date']) : null;
+    const day = startDate ? startDate.getDate() : '—';
+    const mon = startDate ? startDate.toLocaleString('default', { month: 'short' }).toUpperCase() : '';
+    return `
+    <div class="event-item">
+      <div class="event-date-block">
+        <div class="event-date-day">${day}</div>
+        <div class="event-date-mon">${mon}</div>
+      </div>
+      <div class="event-info">
+        <div class="event-name">${ev['Event Name']}</div>
+        <div class="event-venue">${ev['Venue Name'] || ''} ${ev['City'] ? '· ' + ev['City'] + ', ' + ev['State'] : ''}</div>
+        <div class="event-badges">
+          <span class="badge ${badgeClass(ev['Status'])}">${ev['Status']}</span>
+          ${ev['Event Type'] ? `<span class="badge" style="background:var(--paper);color:var(--pebble);border:1px solid var(--stone);">${ev['Event Type']}</span>` : ''}
+          ${ev['Show on Site'] === 'Yes' ? '<span class="badge" style="background:var(--green-bg);color:var(--green);">On Site</span>' : ''}
+        </div>
+      </div>
+      <div class="event-actions">
+        <button class="btn btn-secondary btn-sm" onclick="openEditEvent('${ev['Event ID']}')">Edit</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openAddEvent() {
+  document.getElementById('eventModalTitle').textContent = 'Add Event';
+  document.getElementById('eventEditId').value = '';
+  document.getElementById('deleteEventBtn').style.display = 'none';
+  ['evName','evVenue','evCity','evDesc','evWebsite','evStartDate','evEndDate'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('evType').value = '';
+  document.getElementById('evStatus').value = 'Upcoming';
+  document.getElementById('evState').value = 'NJ';
+  document.getElementById('evShowOnSite').value = 'Yes';
+  openModal('eventModal');
+}
+
+function openEditEvent(id) {
+  const ev = allEvents.find(e => e['Event ID'] === id);
+  if (!ev) return;
+  document.getElementById('eventModalTitle').textContent = 'Edit Event';
+  document.getElementById('eventEditId').value = id;
+  document.getElementById('deleteEventBtn').style.display = 'block';
+  document.getElementById('evName').value = ev['Event Name'] || '';
+  document.getElementById('evType').value = ev['Event Type'] || '';
+  document.getElementById('evStatus').value = ev['Status'] || 'Upcoming';
+  document.getElementById('evVenue').value = ev['Venue Name'] || '';
+  document.getElementById('evCity').value = ev['City'] || '';
+  document.getElementById('evState').value = ev['State'] || 'NJ';
+  document.getElementById('evStartDate').value = ev['Start Date'] || '';
+  document.getElementById('evEndDate').value = ev['End Date'] || '';
+  document.getElementById('evDesc').value = ev['Description'] || '';
+  document.getElementById('evWebsite').value = ev['Website'] || '';
+  document.getElementById('evShowOnSite').value = ev['Show on Site'] || 'Yes';
+  openModal('eventModal');
+}
+
+async function saveEvent() {
+  const id = document.getElementById('eventEditId').value;
+  const isNew = !id;
+  const payload = {
+    eventName: document.getElementById('evName').value,
+    eventType: document.getElementById('evType').value,
+    status: document.getElementById('evStatus').value,
+    venueName: document.getElementById('evVenue').value,
+    city: document.getElementById('evCity').value,
+    state: document.getElementById('evState').value,
+    startDate: document.getElementById('evStartDate').value,
+    endDate: document.getElementById('evEndDate').value,
+    description: document.getElementById('evDesc').value,
+    website: document.getElementById('evWebsite').value,
+    showOnSite: document.getElementById('evShowOnSite').value,
+  };
+
+  if (!payload.eventName) { showToast('Event name is required'); return; }
+
+  const action = isNew ? 'add_event' : 'update_event';
+  if (!isNew) payload.id = id;
+
+  const res = await api(action, payload);
+  if (res.success) {
+    closeModal('eventModal');
+    showToast(isNew ? 'Event added' : 'Event updated');
+    loadEvents();
+  } else {
+    showToast('Error: ' + res.error);
+  }
+}
+
+async function deleteEvent() {
+  if (!confirm('Delete this event?')) return;
+  const id = document.getElementById('eventEditId').value;
+  const res = await api('delete_event', { id });
+  if (res.success) {
+    closeModal('eventModal');
+    showToast('Event deleted');
+    loadEvents();
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════
+function badgeClass(status) {
+  const map = {
+    'Initiated': 'badge-initiated', 'Responded': 'badge-responded',
+    'Negotiating': 'badge-negotiating', 'Sold': 'badge-sold',
+    'Closed': 'badge-closed', 'No Response': 'badge-noresponse',
+    'Available': 'badge-available', 'At Gallery': 'badge-atgallery',
+    'In Progress': 'badge-inprogress', 'Reserved': 'badge-reserved',
+    'Archived': 'badge-archived', 'Upcoming': 'badge-upcoming',
+    'Ongoing': 'badge-ongoing', 'Completed': 'badge-completed',
+    'Cancelled': 'badge-cancelled', 'Published': 'badge-published',
+    'Draft': 'badge-draft', 'Hidden': 'badge-hidden',
+  };
+  return map[status] || '';
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close modal on backdrop click
+document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+  backdrop.addEventListener('click', e => {
+    if (e.target === backdrop) closeModal(backdrop.id);
+  });
+});
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
