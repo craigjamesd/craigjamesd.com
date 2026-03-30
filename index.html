@@ -75,8 +75,8 @@ nav.stuck .nav-cta:hover{background:var(--tide);}
 .hero-nav-inline a:hover{color:var(--ink);}
 .hero-name-wrap{text-align:center;padding:28px var(--pad) 24px;border-bottom:1px solid var(--stone);}
 .hero-name{font-family:var(--display);font-size:3rem;font-weight:400;letter-spacing:.22em;color:var(--ink);line-height:1;text-transform:uppercase;}
-.hero-img-wrap{position:relative;overflow:hidden;}
-.hero-img-wrap img{width:100%;height:480px;object-fit:cover;object-position:center;display:block;}
+.hero-img-wrap{padding:24px var(--pad);background:var(--white);}
+.hero-img-wrap img{width:100%;max-height:420px;object-fit:cover;object-position:center;display:block;border:1px solid var(--stone);}
 .hero-caption{padding:10px var(--pad);border-top:1px solid var(--stone);display:flex;align-items:center;justify-content:space-between;background:var(--white);}
 .hero-cap-text{font-family:var(--body);font-style:italic;font-size:.7rem;color:var(--pebble);}
 .hero-cap-cta{font-family:var(--sans);font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--stone);padding-bottom:2px;text-decoration:none;}
@@ -134,7 +134,7 @@ h2.sec-title em{font-style:italic;}
 
 .art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 .art-card{cursor:none;}
-.art-card-img{position:relative;overflow:hidden;background:var(--linen);aspect-ratio:4/5;margin-bottom:11px;}
+.art-card-img{position:relative;overflow:hidden;background:var(--linen);aspect-ratio:3/2;margin-bottom:11px;}
 .art-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease;display:block;}
 .art-card:hover .art-card-img img{transform:scale(1.04);}
 .art-card-img.is-sold img{filter:grayscale(20%);}
@@ -165,7 +165,7 @@ h2.about-title em{font-style:italic;}
 .about-body strong{color:var(--anchor);font-weight:400;}
 .about-pull{margin:28px 0;padding:20px 26px;border-left:3px solid var(--ink);font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--anchor);line-height:1.65;background:var(--paper);}
 .about-aside{}
-.about-portrait{position:relative;margin-bottom:24px;}
+.about-portrait{position:relative;margin-bottom:24px;max-width:280px;}
 .about-portrait img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center 20%;display:block;}
 .about-portrait-cap{position:absolute;bottom:0;left:0;right:0;background:var(--ink);padding:14px 18px;}
 .apc-name{font-family:var(--display);font-size:.9rem;font-weight:400;color:rgba(255,255,255,.85);letter-spacing:.18em;margin-bottom:2px;}
@@ -643,7 +643,7 @@ footer{background:var(--ink);padding:56px var(--pad) 34px;}
       <div class="about-pull">"I just paint the things I like because they have meaning to me. If people enjoy them or find meaning in my work, that's great."</div>
       <p class="about-body">Weathered bobbers. Bushels of blue crabs. Stormy open water. Fishermen in yellow slickers. Rope knots. Striped bass. Shark teeth. Every subject is a product of where CJ was raised and where he lives — the Jersey Shore, in all its battered, beautiful, salt-stained glory.</p>
       <div style="margin-top:32px;">
-        <img src="images/the-drifter.jpg" alt="The Drifter — oil on canvas, 30×40, CJ Davitt" style="width:100%;display:block;aspect-ratio:4/5;object-fit:cover;object-position:center top;"/>
+        <img src="images/the-drifter.jpg" alt="The Drifter — oil on canvas, 30×40, CJ Davitt" style="width:100%;display:block;max-height:320px;object-fit:cover;object-position:center top;"/>
         <div style="padding:10px 0;border-bottom:1px solid var(--stone);"><span style="font-family:var(--body);font-style:italic;font-size:.78rem;color:var(--pebble);">The Drifter, 30″ × 40″, oil on canvas</span></div>
       </div>
     </div>
@@ -838,14 +838,11 @@ function filterGallery(cat, btn){
 
 <script>
 const CJ_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwmyK0ljJsRQG3XXsWIAwr_cNyMuwnvgYblWskEZlrDgWVf4pMSiSut4yK_T68cwBePOA/exec';
-
-// Pre-fill painting title if coming from a gallery Inquire click
 function setInquiryPainting(title) {
   const sel = document.getElementById('inquiryPainting');
   if (sel) sel.value = title;
   document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
 }
-
 async function submitInquiry() {
   const btn = document.querySelector('.form-submit');
   const nameEl = document.querySelector('[name="name"]');
@@ -854,65 +851,39 @@ async function submitInquiry() {
   const typeEl = document.querySelector('[name="inquiry"]');
   const paintingEl = document.getElementById('inquiryPainting');
   const phoneEl = document.querySelector('[name="phone"]');
-
-  // Basic validation
   if (!nameEl.value.trim()) { showFormMsg('Please enter your name.', 'error'); return; }
   if (!emailEl.value.trim()) { showFormMsg('Please enter your email.', 'error'); return; }
   if (!msgEl.value.trim()) { showFormMsg('Please enter a message.', 'error'); return; }
-
-  // Split name
   const nameParts = nameEl.value.trim().split(' ');
-  const firstName = nameParts[0];
-  const lastName = nameParts.slice(1).join(' ') || '';
-
-  btn.textContent = 'Sending…';
-  btn.disabled = true;
-
+  btn.textContent = 'Sending…'; btn.disabled = true;
   try {
     const res = await fetch(CJ_SCRIPT_URL, {
       method: 'POST',
-      body: JSON.stringify({
-        action: 'submit_inquiry',
-        firstName,
-        lastName,
-        email: emailEl.value.trim(),
-        phone: phoneEl ? phoneEl.value.trim() : '',
+      body: JSON.stringify({ action: 'submit_inquiry',
+        firstName: nameParts[0], lastName: nameParts.slice(1).join(' ') || '',
+        email: emailEl.value.trim(), phone: phoneEl ? phoneEl.value.trim() : '',
         inquiryType: typeEl ? typeEl.value : '',
         paintingTitle: paintingEl ? paintingEl.value : '',
-        message: msgEl.value.trim(),
-      })
+        message: msgEl.value.trim() })
     });
     const data = await res.json();
     if (data.success) {
       showFormMsg('Thank you — CJ will be in touch soon.', 'success');
-      nameEl.value = ''; emailEl.value = ''; msgEl.value = '';
-      if (typeEl) typeEl.value = '';
-      if (paintingEl) paintingEl.value = '';
-      if (phoneEl) phoneEl.value = '';
-    } else {
-      showFormMsg('Something went wrong. Please email hello@craigjamesd.com directly.', 'error');
-    }
-  } catch(e) {
-    showFormMsg('Something went wrong. Please email hello@craigjamesd.com directly.', 'error');
-  }
-
-  btn.textContent = 'Send Message →';
-  btn.disabled = false;
+      [nameEl, emailEl, msgEl, paintingEl, phoneEl].forEach(el => { if(el) el.value=''; });
+      if(typeEl) typeEl.value='';
+    } else { showFormMsg('Something went wrong. Please email hello@craigjamesd.com directly.', 'error'); }
+  } catch(e) { showFormMsg('Something went wrong. Please email hello@craigjamesd.com directly.', 'error'); }
+  btn.textContent = 'Send Message →'; btn.disabled = false;
 }
-
 function showFormMsg(msg, type) {
   let el = document.getElementById('formMsg');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'formMsg';
+  if (!el) { el = document.createElement('div'); el.id = 'formMsg';
     el.style.cssText = 'padding:12px 16px;margin-top:12px;font-family:var(--sans);font-size:.82rem;border-radius:4px;';
-    document.getElementById('contactForm').appendChild(el);
-  }
+    document.getElementById('contactForm').appendChild(el); }
   el.textContent = msg;
   el.style.background = type === 'success' ? '#d4edda' : '#f8d7da';
   el.style.color = type === 'success' ? '#2d6a4f' : '#c0392b';
 }
 </script>
-
 </body>
 </html>
