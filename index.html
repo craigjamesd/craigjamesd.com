@@ -22,7 +22,7 @@
 .hero-name{font-family:var(--display);font-size:2.1rem;font-weight:400;letter-spacing:.2em;color:var(--ink);text-transform:uppercase;margin-bottom:22px;line-height:1;}
 .hero-p{font-family:var(--body);font-size:.86rem;line-height:1.9;color:var(--drift);margin-bottom:12px;}
 .hero-btns{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;}
-.hero-lower{padding:0 var(--pad) 28px;}
+.hero-lower{padding:0 var(--pad) 28px;display:flex;flex-direction:column;gap:0;}
 .thumb-row{display:flex;gap:9px;margin-bottom:10px;}
 .thumb{flex:1;aspect-ratio:4/3;border:1px solid var(--stone);overflow:hidden;cursor:zoom-in;}
 .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
@@ -69,16 +69,8 @@
     </div>
     <div class="hero-lower">
       <div class="divider"></div>
-      <div class="label" style="margin-bottom:9px;">Selected Works</div>
-      <div class="thumb-row">
-        <div class="thumb" onclick="openLightbox('images/the-drifter.jpg','The Drifter · oil on canvas, 30″ × 40″')"><img src="images/the-drifter.jpg" alt="The Drifter" loading="lazy"/></div>
-        <div class="thumb" onclick="openLightbox('images/bushel-of-blues.jpg','Bushel of Blues · oil on canvas, 24″ × 36″')"><img src="images/bushel-of-blues.jpg" alt="Bushel of Blues" loading="lazy"/></div>
-        <div class="thumb" onclick="openLightbox('images/six-bobbers.jpg','Six Bobbers · oil on canvas, 36″ × 36″')"><img src="images/six-bobbers.jpg" alt="Six Bobbers" loading="lazy"/></div>
-      </div>
-      <a href="works.html" class="small-cta" style="margin-bottom:18px;display:inline-block;">View all works →</a>
-      <div class="divider"></div>
-      <div class="label" style="margin-bottom:9px;">Upcoming</div>
-      <div id="upcomingEvents"><div class="event-card"><div class="event-date"><div class="eday">—</div><div class="emon">—</div></div><div><div class="event-name">No upcoming events</div><div class="event-venue">Check back soon</div></div></div></div>
+      <div style="font-family:var(--sans);font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--pebble);margin-bottom:12px;">Upcoming Events</div>
+      <div id="upcomingEvents"><div class="event-card" style="padding:14px 16px;"><div class="event-date" style="padding:8px 12px;min-width:48px;"><div style="font-family:var(--display);font-size:1.1rem;line-height:1;">—</div><div style="font-family:var(--sans);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;opacity:.5;">—</div></div><div><div style="font-family:var(--sans);font-size:.78rem;letter-spacing:.04em;color:var(--ink);font-weight:500;margin-bottom:3px;">No upcoming events scheduled</div><div style="font-family:var(--body);font-style:italic;font-size:.76rem;color:var(--drift);">Check back soon</div></div></div></div>
     </div>
   </div>
 </div>
@@ -94,7 +86,7 @@
 <script src="shared.js"></script>
 <script>
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwmyK0ljJsRQG3XXsWIAwr_cNyMuwnvgYblWskEZlrDgWVf4pMSiSut4yK_T68cwBePOA/exec';
-async function loadEvents(){try{const r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'get_events',password:'cjdavitt2026'})});const d=await r.json();if(!d.success||!d.data)return;const up=d.data.filter(e=>e['Status']==='Upcoming'||e['Status']==='Ongoing');if(!up.length)return;const c=document.getElementById('upcomingEvents');c.innerHTML='';up.slice(0,2).forEach(ev=>{const dt=ev['Start Date']?new Date(ev['Start Date']):null;const day=dt?dt.getDate():'—';const mon=dt?dt.toLocaleString('default',{month:'short'}).toUpperCase():'—';c.innerHTML+=`<div class="event-card"><div class="event-date"><div class="eday">${day}</div><div class="emon">${mon}</div></div><div><div class="event-name">${ev['Event Name']}</div><div class="event-venue">${ev['Venue Name']||''} · ${ev['City']||''}</div></div></div>`;});}catch(e){}}
+async function loadEvents(){try{const r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'get_events',password:'cjdavitt2026'})});const d=await r.json();if(!d.success||!d.data)return;const up=d.data.filter(e=>e['Status']==='Upcoming'||e['Status']==='Ongoing');if(!up.length)return;const c=document.getElementById('upcomingEvents');c.innerHTML='';up.slice(0,2).forEach(ev=>{const dt=ev['Start Date']?new Date(ev['Start Date']):null;const day=dt?dt.getDate():'—';const mon=dt?dt.toLocaleString('default',{month:'short'}).toUpperCase():'—';c.innerHTML+=`<div class="event-card" style="padding:14px 16px;"><div class="event-date" style="padding:8px 12px;min-width:48px;"><div style="font-family:var(--display);font-size:1.1rem;line-height:1;">${day}</div><div style="font-family:var(--sans);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;opacity:.5;">${mon}</div></div><div><div style="font-family:var(--sans);font-size:.78rem;letter-spacing:.04em;color:var(--ink);font-weight:500;margin-bottom:3px;">${ev['Event Name']}</div><div style="font-family:var(--body);font-style:italic;font-size:.76rem;color:var(--drift);">${ev['Venue Name']||''} · ${ev['City']||''}</div></div></div>`;});}catch(e){}}
 loadEvents();
 </script>
 </body>
