@@ -4,25 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Works — CJ Davitt</title>
-<meta name="description" content="Browse original oil paintings and colored pencil works by CJ Davitt — New Jersey angling artist.">
 <link rel="stylesheet" href="style.css">
 <style>
-/* PAGE HEADER */
 .works-header{padding:24px var(--pad) 0;}
 .works-title{font-family:var(--display);font-size:1.1rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);}
 
-/* FILTERS */
-.works-filters{display:flex;gap:0;border-bottom:1px solid var(--stone);padding:0 var(--pad);margin-top:16px;overflow-x:auto;scrollbar-width:none;}
-.works-filters::-webkit-scrollbar{display:none;}
-.wf{font-family:var(--sans);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pebble);padding:10px 18px;border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;transition:color .2s;}
-.wf.active,.wf:hover{color:var(--ink);}
-.wf.active{border-bottom-color:var(--ink);}
+/* TOP SECTION: featured LEFT, sidebar RIGHT */
+.works-top{display:grid;grid-template-columns:1fr 300px;border-bottom:2px solid var(--ink);margin-top:16px;}
 
-/* TOP SECTION: sidebar left, featured right */
-.works-top{display:grid;grid-template-columns:1fr 320px;gap:0;border-bottom:2px solid var(--ink);}
+/* FEATURED */
+.works-featured{padding:28px var(--pad) 28px 40px;border-right:1px solid var(--stone);}
+.featured-label{font-family:var(--sans);font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--pebble);margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--stone);}
+.mag-item{display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start;padding:24px 0;border-bottom:1px solid var(--stone);}
+.mag-item:first-child{padding-top:0;}
+.mag-item:last-child{border-bottom:none;padding-bottom:0;}
+.mag-img{aspect-ratio:4/3;border:1px solid var(--stone);overflow:hidden;cursor:zoom-in;display:block;}
+.mag-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.mag-item:hover .mag-img img{transform:scale(1.03);}
+.mag-num{font-family:var(--serif);font-size:1.8rem;color:var(--stone);line-height:1;margin-bottom:6px;}
+.mag-title-row{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.mag-title{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--ink);}
+.mag-medium{font-family:var(--sans);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pebble);margin-bottom:12px;}
+.mag-desc{font-family:var(--body);font-size:.84rem;line-height:1.85;color:var(--drift);margin-bottom:14px;}
+.mag-action{font-family:var(--sans);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--stone);padding-bottom:1px;text-decoration:none;display:inline-block;}
 
 /* SIDEBAR */
-.works-sidebar{border-right:1px solid var(--stone);padding:28px var(--pad);}
+.works-sidebar{background:var(--paper);padding:28px 24px;position:sticky;top:56px;align-self:start;max-height:calc(100vh - 56px);overflow-y:auto;}
 .aside-portrait{position:relative;margin-bottom:20px;}
 .aside-portrait img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center 20%;display:block;border:1px solid var(--stone);}
 .aside-portrait-cap{position:absolute;bottom:0;left:0;right:0;background:var(--navy);padding:11px 14px;}
@@ -30,29 +37,19 @@
 .apc-sub{font-family:var(--sans);font-size:.44rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);}
 .aside-events{margin-top:20px;padding-top:20px;border-top:1px solid var(--stone);}
 
-/* FEATURED WORKS */
-.works-featured{padding:28px var(--pad);}
-.featured-label{font-family:var(--sans);font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--pebble);margin-bottom:20px;}
-.mag-item{display:grid;grid-template-columns:220px 1fr;gap:28px;align-items:start;padding:24px 0;border-bottom:1px solid var(--stone);}
-.mag-item:first-child{padding-top:0;}
-.mag-item:last-child{border-bottom:none;}
-.mag-img{aspect-ratio:4/3;border:1px solid var(--stone);overflow:hidden;cursor:zoom-in;}
-.mag-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease;}
-.mag-item:hover .mag-img img{transform:scale(1.04);}
-.mag-num{font-family:var(--serif);font-size:1.6rem;color:var(--stone);line-height:1;margin-bottom:4px;}
-.mag-title-row{display:flex;align-items:center;gap:7px;margin-bottom:3px;}
-.mag-title{font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--ink);}
-.mag-medium{font-family:var(--sans);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pebble);margin-bottom:10px;}
-.mag-desc{font-family:var(--body);font-size:.82rem;line-height:1.8;color:var(--drift);margin-bottom:12px;}
-.mag-action{font-family:var(--sans);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--stone);padding-bottom:1px;text-decoration:none;display:inline-block;}
-
-/* MORE WORKS GRID */
-.works-grid-section{padding:32px var(--pad);}
-.grid-label{font-family:var(--sans);font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--stone);padding-bottom:12px;margin-bottom:24px;}
+/* GRID */
+.works-grid-section{padding:28px 40px 32px;}
+.grid-header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--stone);margin-bottom:24px;padding-bottom:10px;}
+.grid-label{font-family:var(--sans);font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink);}
+.works-filters{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+.works-filters::-webkit-scrollbar{display:none;}
+.wf{font-family:var(--sans);font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;color:var(--pebble);padding:4px 14px;border:none;background:none;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:color .2s;}
+.wf.active,.wf:hover{color:var(--ink);}
+.wf.active{border-bottom-color:var(--ink);}
 .art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
 .art-card{cursor:pointer;}
-.art-card-img{position:relative;overflow:hidden;border:1px solid var(--stone);aspect-ratio:3/2;margin-bottom:9px;}
-.art-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease;}
+.art-card-img{overflow:hidden;border:1px solid var(--stone);aspect-ratio:3/2;margin-bottom:9px;}
+.art-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
 .art-card:hover .art-card-img img{transform:scale(1.04);}
 .art-card-img.sold img{filter:grayscale(20%);}
 .art-card-body{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
@@ -61,16 +58,17 @@
 .art-card-medium{font-family:var(--sans);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--pebble);}
 .art-card-cta{font-family:var(--sans);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--drift);white-space:nowrap;border-bottom:1px solid var(--stone);padding-bottom:1px;text-decoration:none;flex-shrink:0;}
 
-@media(max-width:900px){
+@media(max-width:960px){
   .works-top{grid-template-columns:1fr;}
-  .works-sidebar{border-right:none;border-bottom:1px solid var(--stone);display:grid;grid-template-columns:160px 1fr;gap:20px;align-items:start;}
+  .works-sidebar{position:static;max-height:none;display:grid;grid-template-columns:180px 1fr;gap:20px;align-items:start;}
   .aside-portrait{margin-bottom:0;}
-  .mag-item{grid-template-columns:130px 1fr;gap:16px;}
+  .mag-item{grid-template-columns:160px 1fr;}
   .art-grid{grid-template-columns:1fr 1fr;}
 }
-@media(max-width:540px){
+@media(max-width:600px){
   .works-sidebar{grid-template-columns:1fr;}
   .art-grid{grid-template-columns:1fr;}
+  .grid-header{flex-direction:column;align-items:flex-start;gap:10px;}
 }
 </style>
 </head>
@@ -80,17 +78,9 @@
 <nav class="nav"><a href="index.html" class="nav-brand">CJ Davitt</a><div class="nav-links"><a href="works.html" class="nav-link active">Works</a><a href="commissions.html" class="nav-link">Commissions</a><a href="about.html" class="nav-link">About</a><a href="contact.html" class="nav-link">Contact</a><a href="contact.html" class="nav-link cta">Inquire</a></div><button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button></nav>
 
 <div class="works-header"><div class="works-title">Selected Works</div></div>
-<div class="works-filters">
-  <button class="wf active" onclick="filter('all',this)">All</button>
-  <button class="wf" onclick="filter('bobbers',this)">Bobbers &amp; Tackle</button>
-  <button class="wf" onclick="filter('seascape',this)">Seascapes</button>
-  <button class="wf" onclick="filter('marine',this)">Marine Life</button>
-  <button class="wf" onclick="filter('figures',this)">Figures</button>
-</div>
 
-<!-- TOP: sidebar + featured works side by side -->
 <div class="works-top">
-  <!-- FEATURED WORKS -->
+  <!-- FEATURED WORKS — LEFT -->
   <div class="works-featured">
     <div class="featured-label">Featured</div>
     <div class="mag-item" data-cat="figures">
@@ -99,7 +89,7 @@
         <div class="mag-num">01</div>
         <div class="mag-title-row"><span class="dot dot-av"></span><div class="mag-title">The Drifter</div></div>
         <div class="mag-medium">Oil on Canvas · 30″ × 40″</div>
-        <p class="mag-desc">A bearded fisherman in a yellow slicker stares back through bobber-lens glasses — part portrait, part emblem. One of CJ's most recognized pieces.</p>
+        <p class="mag-desc">A weathered fisherman in a yellow slicker stares back through bobber-lens glasses — eyes obscured, presence undeniable. Part portrait, part emblem of the Jersey Shore. One of CJ's most recognized and sought-after pieces, fusing nautical iconography with quiet, arresting character study.</p>
         <a href="contact.html?painting=The+Drifter" class="mag-action">Inquire about this work →</a>
       </div>
     </div>
@@ -109,7 +99,7 @@
         <div class="mag-num">02</div>
         <div class="mag-title-row"><span class="dot dot-av"></span><div class="mag-title">Bushel of Blues</div></div>
         <div class="mag-medium">Oil on Canvas · 24″ × 36″</div>
-        <p class="mag-desc">A chaotic tangle of blue crabs in a wooden bushel — painted with palette knife and raw energy. Thick impasto surfaces give each claw a sculptural presence.</p>
+        <p class="mag-desc">A chaotic tangle of blue crabs packed into a wooden bushel, painted with palette knife and raw energy. Thick impasto surfaces give each claw and shell a sculptural, tactile presence — as if the crabs are still moving. A direct product of summers crabbing on Barnegat Bay.</p>
         <a href="contact.html?painting=Bushel+of+Blues" class="mag-action">Inquire about this work →</a>
       </div>
     </div>
@@ -119,32 +109,43 @@
         <div class="mag-num">03</div>
         <div class="mag-title-row"><span class="dot dot-av"></span><div class="mag-title">Six Bobbers</div></div>
         <div class="mag-medium">Oil on Canvas · 36″ × 36″</div>
-        <p class="mag-desc">Six weathered fishing bobbers arranged across a white ground — each bearing the salt-worn character of years on the water.</p>
+        <p class="mag-desc">Six weathered wooden fishing bobbers arranged against a clean white ground — each one bearing the chipped paint and salt-worn character of years on the water. The piece that defined CJ's signature subject and drew collectors to his work for the first time.</p>
         <a href="contact.html?painting=Six+Bobbers" class="mag-action">Inquire about this work →</a>
       </div>
     </div>
-  </div>  <!-- SIDEBAR -->
-  <div class="works-sidebar" style="position:sticky;top:56px;align-self:start;">
+  </div>
+
+  <!-- SIDEBAR — RIGHT -->
+  <div class="works-sidebar">
     <div class="aside-portrait">
       <img src="images/cj-davitt-artist.jpg" alt="CJ Davitt"/>
       <div class="aside-portrait-cap"><div class="apc-name">CJ Davitt</div><div class="apc-sub">Angling Artist · Sandy Hook, NJ</div></div>
     </div>
     <div class="cred-item"><div class="cred-lbl">Medium</div><div class="cred-val">Oil on canvas &amp; panel, colored pencil</div></div>
-    <div class="cred-item"><div class="cred-lbl">Recognition</div><div class="cred-val">2026 Angling Artist — On The Water</div></div>
+    <div class="cred-item"><div class="cred-lbl">Recognition</div><div class="cred-val">2026 Angling Artist — On The Water Magazine</div></div>
     <div class="cred-item"><div class="cred-lbl">Galleries</div><div class="cred-val">Frederick Gallery, Spring Lake<br>Autumn Elise, Rumson<br>Noon Designs, Bay Head</div></div>
     <div class="cred-item"><div class="cred-lbl">Instagram</div><div class="cred-val"><a href="https://instagram.com/craigjamesd" target="_blank">@craigjamesd</a></div></div>
     <div class="aside-events">
-      <div class="label" style="margin-bottom:10px;">Upcoming Events</div>
-      <div id="eventsAside"><div class="event-card"><div class="event-date"><div class="eday">—</div><div class="emon">—</div></div><div><div class="event-name">No upcoming events</div><div class="event-venue">Check back soon</div></div></div></div>
+      <div class="label" style="margin-bottom:12px;">Upcoming Events</div>
+      <div id="eventsAside">
+        <div class="event-card"><div class="event-date"><div class="eday">—</div><div class="emon">—</div></div><div><div class="event-name">No upcoming events</div><div class="event-venue">Check back soon</div></div></div>
+      </div>
     </div>
   </div>
-
-
 </div>
 
-<!-- BOTTOM: full-width grid -->
+<!-- MORE WORKS GRID -->
 <div class="works-grid-section">
-  <div class="grid-label">More Works</div>
+  <div class="grid-header">
+    <div class="grid-label">More Works</div>
+    <div class="works-filters">
+      <button class="wf active" onclick="filter('all',this)">All</button>
+      <button class="wf" onclick="filter('bobbers',this)">Bobbers &amp; Tackle</button>
+      <button class="wf" onclick="filter('seascape',this)">Seascapes</button>
+      <button class="wf" onclick="filter('marine',this)">Marine Life</button>
+      <button class="wf" onclick="filter('figures',this)">Figures</button>
+    </div>
+  </div>
   <div class="art-grid">
     <div class="art-card" data-cat="bobbers" onclick="openLightbox('images/wrong-cork.jpg','Wrong Cork · oil on canvas, 30″ × 24″')"><div class="art-card-img"><img src="images/wrong-cork.jpg" alt="Wrong Cork" loading="lazy"/></div><div class="art-card-body"><div><div class="art-card-title-row"><span class="dot dot-av"></span><div class="art-card-title">Wrong Cork</div></div><div class="art-card-medium">Oil on Canvas · 30″ × 24″</div></div><a href="contact.html?painting=Wrong+Cork" class="art-card-cta" onclick="event.stopPropagation()">Inquire</a></div></div>
     <div class="art-card" data-cat="seascape" onclick="openLightbox('images/storm-horizon.jpg','Storm Horizon · oil on canvas, 18″ × 18″')"><div class="art-card-img"><img src="images/storm-horizon.jpg" alt="Storm Horizon" loading="lazy"/></div><div class="art-card-body"><div><div class="art-card-title-row"><span class="dot dot-av"></span><div class="art-card-title">Storm Horizon</div></div><div class="art-card-medium">Oil on Canvas · 18″ × 18″</div></div><a href="contact.html?painting=Storm+Horizon" class="art-card-cta" onclick="event.stopPropagation()">Inquire</a></div></div>
@@ -167,7 +168,7 @@ const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwmyK0ljJsRQG3XXsWIAwr
 function filter(cat,btn){
   document.querySelectorAll('.wf').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.mag-item,.art-card').forEach(el=>{
+  document.querySelectorAll('.art-card').forEach(el=>{
     el.style.display=(cat==='all'||el.dataset.cat===cat)?'':'none';
   });
 }
