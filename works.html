@@ -19,7 +19,7 @@
 .wf.active{border-bottom-color:var(--ink);}
 
 /* TOP SECTION: sidebar left, featured right */
-.works-top{display:grid;grid-template-columns:260px 1fr;gap:0;border-bottom:2px solid var(--ink);}
+.works-top{display:grid;grid-template-columns:1fr 320px;gap:0;border-bottom:2px solid var(--ink);}
 
 /* SIDEBAR */
 .works-sidebar{border-right:1px solid var(--stone);padding:28px var(--pad);}
@@ -33,7 +33,7 @@
 /* FEATURED WORKS */
 .works-featured{padding:28px var(--pad);}
 .featured-label{font-family:var(--sans);font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--pebble);margin-bottom:20px;}
-.mag-item{display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:start;padding:20px 0;border-bottom:1px solid var(--stone);}
+.mag-item{display:grid;grid-template-columns:220px 1fr;gap:28px;align-items:start;padding:24px 0;border-bottom:1px solid var(--stone);max-width:680px;}
 .mag-item:first-child{padding-top:0;}
 .mag-item:last-child{border-bottom:none;}
 .mag-img{aspect-ratio:4/3;border:1px solid var(--stone);overflow:hidden;cursor:zoom-in;}
@@ -90,22 +90,6 @@
 
 <!-- TOP: sidebar + featured works side by side -->
 <div class="works-top">
-  <!-- SIDEBAR -->
-  <div class="works-sidebar">
-    <div class="aside-portrait">
-      <img src="images/cj-davitt-artist.jpg" alt="CJ Davitt"/>
-      <div class="aside-portrait-cap"><div class="apc-name">CJ Davitt</div><div class="apc-sub">Angling Artist · Sandy Hook, NJ</div></div>
-    </div>
-    <div class="cred-item"><div class="cred-lbl">Medium</div><div class="cred-val">Oil on canvas &amp; panel, colored pencil</div></div>
-    <div class="cred-item"><div class="cred-lbl">Recognition</div><div class="cred-val">2026 Angling Artist — On The Water</div></div>
-    <div class="cred-item"><div class="cred-lbl">Galleries</div><div class="cred-val">Frederick Gallery, Spring Lake<br>Autumn Elise, Rumson<br>Noon Designs, Bay Head</div></div>
-    <div class="cred-item"><div class="cred-lbl">Instagram</div><div class="cred-val"><a href="https://instagram.com/craigjamesd" target="_blank">@craigjamesd</a></div></div>
-    <div class="aside-events">
-      <div class="label" style="margin-bottom:10px;">Upcoming Events</div>
-      <div id="eventsAside"><div class="event-card"><div class="event-date"><div class="eday">—</div><div class="emon">—</div></div><div><div class="event-name">No upcoming events</div><div class="event-venue">Check back soon</div></div></div></div>
-    </div>
-  </div>
-
   <!-- FEATURED WORKS -->
   <div class="works-featured">
     <div class="featured-label">Featured</div>
@@ -139,7 +123,23 @@
         <a href="contact.html?painting=Six+Bobbers" class="mag-action">Inquire about this work →</a>
       </div>
     </div>
+  </div>  <!-- SIDEBAR -->
+  <div class="works-sidebar">
+    <div class="aside-portrait">
+      <img src="images/cj-davitt-artist.jpg" alt="CJ Davitt"/>
+      <div class="aside-portrait-cap"><div class="apc-name">CJ Davitt</div><div class="apc-sub">Angling Artist · Sandy Hook, NJ</div></div>
+    </div>
+    <div class="cred-item"><div class="cred-lbl">Medium</div><div class="cred-val">Oil on canvas &amp; panel, colored pencil</div></div>
+    <div class="cred-item"><div class="cred-lbl">Recognition</div><div class="cred-val">2026 Angling Artist — On The Water</div></div>
+    <div class="cred-item"><div class="cred-lbl">Galleries</div><div class="cred-val">Frederick Gallery, Spring Lake<br>Autumn Elise, Rumson<br>Noon Designs, Bay Head</div></div>
+    <div class="cred-item"><div class="cred-lbl">Instagram</div><div class="cred-val"><a href="https://instagram.com/craigjamesd" target="_blank">@craigjamesd</a></div></div>
+    <div class="aside-events">
+      <div class="label" style="margin-bottom:10px;">Upcoming Events</div>
+      <div id="eventsAside"><div class="event-card"><div class="event-date"><div class="eday">—</div><div class="emon">—</div></div><div><div class="event-name">No upcoming events</div><div class="event-venue">Check back soon</div></div></div></div>
+    </div>
   </div>
+
+
 </div>
 
 <!-- BOTTOM: full-width grid -->
@@ -180,7 +180,7 @@ async function loadEvents(){
     if(!up.length)return;
     const c=document.getElementById('eventsAside');
     c.innerHTML='';
-    up.slice(0,3).forEach(ev=>{
+    up.slice(0,2).forEach(ev=>{
       const dt=ev['Start Date']?new Date(ev['Start Date']):null;
       const day=dt?dt.getDate():'—';
       const mon=dt?dt.toLocaleString('default',{month:'short'}).toUpperCase():'—';
