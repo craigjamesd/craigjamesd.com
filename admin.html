@@ -8,8 +8,6 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f2f0ec;color:#1a1816;min-height:100vh;}
 img{max-width:100%;display:block;}
-
-/* ── VARIABLES ── */
 :root{
   --ink:#1a1816;--white:#fff;--paper:#f2f0ec;--stone:#e4e2dc;
   --pebble:#b8b4ac;--drift:#7a7670;--anchor:#3a3834;
@@ -17,10 +15,9 @@ img{max-width:100%;display:block;}
   --red:#c0392b;--red-bg:#f8d7da;
   --amber:#856404;--amber-bg:#fff3cd;
   --blue:#0c5460;--blue-bg:#cce5ff;
-  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.08);
+  --radius:8px;
 }
-
-/* ── LOGIN ── */
+/* LOGIN */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
 .login-card{background:var(--white);border:1px solid var(--stone);padding:48px 40px;max-width:360px;width:100%;text-align:center;}
 .login-logo{font-family:'Georgia',serif;font-size:1.4rem;letter-spacing:.08em;margin-bottom:4px;}
@@ -30,158 +27,126 @@ img{max-width:100%;display:block;}
 .login-input:focus{border-color:var(--ink);}
 .login-btn{width:100%;background:var(--ink);color:var(--white);border:none;padding:13px;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;}
 .login-err{color:var(--red);font-size:.8rem;margin-top:10px;display:none;}
-
-/* ── LAYOUT ── */
+/* LAYOUT */
 .app{display:none;min-height:100vh;}
 .topbar{background:var(--ink);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
 .topbar-brand{font-family:'Georgia',serif;font-size:1rem;color:rgba(255,255,255,.85);letter-spacing:.06em;}
 .topbar-sub{font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:1px;}
-.topbar-logout{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);cursor:pointer;border:none;background:none;padding:6px 12px;border:1px solid rgba(255,255,255,.1);}
-.topbar-logout:hover{color:rgba(255,255,255,.7);}
-
+.topbar-logout{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);cursor:pointer;border:1px solid rgba(255,255,255,.1);background:none;padding:6px 12px;}
 .nav-tabs{background:var(--white);border-bottom:1px solid var(--stone);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:57px;z-index:99;}
 .nav-tabs::-webkit-scrollbar{display:none;}
 .nav-tab{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--pebble);background:none;border:none;padding:14px 20px;cursor:pointer;position:relative;white-space:nowrap;transition:color .2s;}
 .nav-tab::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--ink);transform:scaleX(0);transition:transform .2s;}
 .nav-tab.active{color:var(--ink);}
 .nav-tab.active::after{transform:scaleX(1);}
-
 .panel{display:none;padding:20px;}
 .panel.active{display:block;}
-
-/* ── CARDS ── */
-.card{background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
-.card-title{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--pebble);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--stone);}
-
-/* ── STATS ROW ── */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
-.stat{background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);padding:16px 12px;text-align:center;}
-.stat-n{font-size:1.8rem;font-weight:600;color:var(--ink);line-height:1;}
-.stat-l{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pebble);margin-top:4px;}
-
-/* ── BADGES ── */
-.badge{display:inline-block;font-size:.6rem;letter-spacing:.08em;padding:3px 9px;border-radius:100px;font-weight:500;white-space:nowrap;}
+/* BADGES */
+.badge{display:inline-block;font-size:.58rem;letter-spacing:.08em;padding:2px 8px;border-radius:100px;font-weight:500;white-space:nowrap;}
 .badge-initiated{background:var(--amber-bg);color:var(--amber);}
 .badge-responded{background:var(--blue-bg);color:var(--blue);}
 .badge-negotiating{background:#e8d5ff;color:#6b21a8;}
 .badge-sold{background:var(--green-bg);color:var(--green);}
-.badge-closed{background:var(--paper);color:var(--pebble);border:1px solid var(--stone);}
-.badge-noresponse{background:var(--red-bg);color:var(--red);}
+.badge-closed,.badge-archived,.badge-hidden{background:var(--paper);color:var(--pebble);border:1px solid var(--stone);}
+.badge-published{background:var(--green-bg);color:var(--green);}
+.badge-draft{background:var(--amber-bg);color:var(--amber);}
 .badge-available{background:var(--green-bg);color:var(--green);}
-.badge-atgallery{background:var(--blue-bg);color:var(--blue);}
-.badge-inprogress{background:#e2e3e5;color:#383d41;}
-.badge-reserved{background:var(--amber-bg);color:var(--amber);}
-.badge-archived{background:var(--paper);color:var(--pebble);}
 .badge-upcoming{background:var(--blue-bg);color:var(--blue);}
 .badge-ongoing{background:var(--green-bg);color:var(--green);}
 .badge-completed{background:var(--paper);color:var(--pebble);border:1px solid var(--stone);}
-.badge-cancelled{background:var(--red-bg);color:var(--red);}
-.badge-published{background:var(--green-bg);color:var(--green);}
-.badge-draft{background:var(--amber-bg);color:var(--amber);}
-.badge-hidden{background:var(--paper);color:var(--pebble);border:1px solid var(--stone);}
-
-/* ── DOT ── */
-.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
-.dot-green{background:#2d6a4f;}
-.dot-red{background:#c0392b;}
-.dot-grey{background:#b8b4ac;}
-.dot-amber{background:#d97706;}
-
-/* ── INQUIRY CARDS ── */
-.inq-card{background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:box-shadow .2s;}
-.inq-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.badge-hero{background:#162535;color:#fff;}
+.badge-featured{background:#1a3a35;color:#fff;}
+.badge-gallery{background:#2d5a52;color:#fff;}
+.badge-comm{background:#5a3a1a;color:#fff;}
+.badge-artist{background:#4a2060;color:#fff;}
+/* SLOT SUMMARY */
+.slot-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.slot-item{background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);padding:8px 10px;}
+.slot-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
+.slot-label{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--pebble);}
+.slot-count{font-size:.75rem;font-weight:500;}
+.slot-bar{height:3px;background:var(--stone);border-radius:2px;overflow:hidden;}
+.slot-fill{height:100%;transition:width .3s;}
+/* WORKS GRID */
+.works-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.work-card{background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:box-shadow .2s;}
+.work-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.1);}
+.work-img{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--paper);display:block;}
+.work-img-placeholder{width:100%;aspect-ratio:4/3;background:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--pebble);}
+.work-body{padding:10px;}
+.work-title{font-size:.88rem;font-weight:500;color:var(--ink);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.work-medium{font-size:.7rem;color:var(--drift);margin-bottom:6px;}
+.work-badges{display:flex;gap:4px;flex-wrap:wrap;}
+/* INQUIRY CARDS */
+.inq-card{background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;}
 .inq-header{padding:14px 16px;display:flex;align-items:flex-start;gap:12px;cursor:pointer;}
-.inq-thumb{width:52px;height:52px;background:var(--paper);border:1px solid var(--stone);border-radius:4px;object-fit:cover;flex-shrink:0;}
-.inq-thumb-placeholder{width:52px;height:52px;background:var(--paper);border:1px solid var(--stone);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--pebble);flex-shrink:0;text-align:center;line-height:1.2;}
 .inq-meta{flex:1;min-width:0;}
-.inq-name{font-size:.95rem;font-weight:500;color:var(--ink);margin-bottom:2px;}
-.inq-painting{font-size:.78rem;color:var(--drift);margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.inq-name{font-size:.92rem;font-weight:500;margin-bottom:2px;}
+.inq-painting{font-size:.76rem;color:var(--drift);margin-bottom:4px;}
 .inq-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.inq-date{font-size:.65rem;color:var(--pebble);}
-.inq-chevron{color:var(--pebble);transition:transform .25s;font-size:.8rem;flex-shrink:0;}
+.inq-date{font-size:.63rem;color:var(--pebble);}
+.inq-chevron{color:var(--pebble);font-size:.8rem;flex-shrink:0;transition:transform .2s;}
 .inq-card.open .inq-chevron{transform:rotate(180deg);}
 .inq-body{display:none;padding:0 16px 16px;border-top:1px solid var(--stone);}
 .inq-card.open .inq-body{display:block;}
-.inq-message{font-size:.84rem;color:var(--drift);line-height:1.7;background:var(--paper);padding:12px;border-radius:4px;margin:12px 0;}
+.inq-message{font-size:.82rem;color:var(--drift);line-height:1.7;background:var(--paper);padding:12px;border-radius:4px;margin:12px 0;}
 .inq-contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.inq-contact-item strong{display:block;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pebble);margin-bottom:2px;font-weight:400;}
 .inq-contact-item{font-size:.75rem;color:var(--drift);}
-.inq-contact-item strong{display:block;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pebble);margin-bottom:2px;font-weight:400;}
-
-/* ── FORMS ── */
+/* EVENTS */
+.event-item{background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;}
+.event-date-block{background:var(--ink);color:var(--white);padding:8px 12px;border-radius:4px;text-align:center;flex-shrink:0;min-width:52px;}
+.event-date-day{font-size:1.2rem;font-weight:600;line-height:1;}
+.event-date-mon{font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;opacity:.6;}
+.event-info{flex:1;min-width:0;}
+.event-name{font-size:.9rem;font-weight:500;margin-bottom:2px;}
+.event-venue{font-size:.76rem;color:var(--drift);margin-bottom:5px;}
+.event-actions{display:flex;gap:6px;flex-shrink:0;}
+/* FORMS */
 .form-group{margin-bottom:14px;}
 .form-label{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--drift);margin-bottom:5px;}
+.form-label small{font-size:.56rem;color:var(--pebble);letter-spacing:.06em;text-transform:none;}
 .form-input,.form-select,.form-textarea{width:100%;border:1px solid var(--stone);background:var(--paper);padding:10px 12px;font-size:.9rem;color:var(--ink);outline:none;border-radius:4px;font-family:inherit;transition:border-color .2s;}
 .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--ink);}
 .form-textarea{resize:vertical;min-height:80px;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.form-actions{display:flex;gap:10px;margin-top:16px;}
+.form-actions{display:flex;gap:10px;margin-top:16px;align-items:center;}
+.slots-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;}
+/* BUTTONS */
 .btn{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;padding:10px 20px;border:none;cursor:pointer;transition:background .2s;border-radius:4px;}
 .btn-primary{background:var(--ink);color:var(--white);}
 .btn-primary:hover{background:#2c2c2a;}
 .btn-secondary{background:var(--paper);color:var(--anchor);border:1px solid var(--stone);}
 .btn-secondary:hover{background:var(--stone);}
 .btn-danger{background:var(--red-bg);color:var(--red);border:1px solid #f5c6cb;}
-.btn-danger:hover{background:#f5c6cb;}
 .btn-sm{padding:7px 14px;font-size:.58rem;}
-.btn-block{width:100%;}
-
-/* ── WORKS GRID ── */
-.works-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
-.work-card{background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);overflow:hidden;}
-.work-img{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--paper);}
-.work-img-placeholder{width:100%;aspect-ratio:4/3;background:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--pebble);}
-.work-body{padding:12px;}
-.work-title{font-size:.9rem;font-weight:500;color:var(--ink);margin-bottom:3px;}
-.work-medium{font-size:.7rem;color:var(--drift);margin-bottom:8px;}
-.work-actions{display:flex;gap:6px;flex-wrap:wrap;}
-
-/* ── EVENTS LIST ── */
-.event-item{background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;}
-.event-date-block{background:var(--ink);color:var(--white);padding:8px 12px;border-radius:4px;text-align:center;flex-shrink:0;min-width:52px;}
-.event-date-day{font-size:1.2rem;font-weight:600;line-height:1;}
-.event-date-mon{font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;opacity:.6;}
-.event-info{flex:1;min-width:0;}
-.event-name{font-size:.95rem;font-weight:500;color:var(--ink);margin-bottom:2px;}
-.event-venue{font-size:.78rem;color:var(--drift);margin-bottom:5px;}
-.event-badges{display:flex;gap:6px;flex-wrap:wrap;}
-.event-actions{display:flex;gap:6px;flex-shrink:0;}
-
-/* ── MODAL ── */
+.btn-block{width:100%;text-align:center;display:block;}
+/* PHOTO PICKER */
+.photo-preview{display:none;position:relative;margin-bottom:10px;}
+.photo-preview img{width:100%;max-height:220px;object-fit:cover;border-radius:6px;display:block;}
+.photo-clear{position:absolute;top:7px;right:7px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;width:30px;height:30px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.photo-uploading{display:none;align-items:center;gap:10px;padding:12px;background:var(--paper);border:1px solid var(--stone);border-radius:6px;margin-bottom:10px;font-size:.8rem;color:var(--drift);}
+.photo-uploading.active{display:flex;}
+/* MODAL */
 .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end;justify-content:center;}
 .modal-backdrop.open{display:flex;}
-.modal{background:var(--white);width:100%;max-width:600px;max-height:90vh;overflow-y:auto;border-radius:12px 12px 0 0;padding:24px 20px 32px;}
+.modal{background:var(--white);width:100%;max-width:600px;max-height:92vh;overflow-y:auto;border-radius:12px 12px 0 0;padding:24px 20px 40px;}
 .modal-handle{width:36px;height:4px;background:var(--stone);border-radius:2px;margin:0 auto 20px;}
 .modal-title{font-size:1rem;font-weight:500;color:var(--ink);margin-bottom:20px;}
-@media(min-width:600px){
-  .modal-backdrop{align-items:center;}
-  .modal{border-radius:12px;max-height:85vh;}
-}
-
-/* ── FILTER BAR ── */
-.filter-bar{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;}
+@media(min-width:600px){.modal-backdrop{align-items:center;}.modal{border-radius:12px;}}
+/* FILTER BAR */
+.filter-bar{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
 .filter-bar::-webkit-scrollbar{display:none;}
 .filter-chip{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border:1px solid var(--stone);background:var(--white);color:var(--pebble);cursor:pointer;border-radius:100px;white-space:nowrap;transition:all .2s;}
 .filter-chip.active{background:var(--ink);color:var(--white);border-color:var(--ink);}
-
-/* ── LOADING ── */
+/* LOADING / TOAST */
 .loading{text-align:center;padding:40px;color:var(--pebble);font-size:.82rem;}
-.loading-spinner{width:24px;height:24px;border:2px solid var(--stone);border-top-color:var(--ink);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px;}
+.spinner{width:22px;height:22px;border:2px solid var(--stone);border-top-color:var(--ink);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-/* ── EMPTY STATE ── */
-.empty{text-align:center;padding:48px 20px;color:var(--pebble);}
-.empty-icon{font-size:2rem;margin-bottom:12px;opacity:.4;}
-.empty-text{font-size:.84rem;}
-
-/* ── TOAST ── */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:var(--white);padding:12px 24px;border-radius:100px;font-size:.78rem;z-index:300;transition:transform .3s;pointer-events:none;}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:var(--white);padding:11px 22px;border-radius:100px;font-size:.78rem;z-index:400;transition:transform .3s;pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
-
-@media(min-width:768px){
-  .panel{padding:24px;}
-  .works-grid{grid-template-columns:repeat(3,1fr);}
-  .stats{grid-template-columns:repeat(6,1fr);}
-}
+.section-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--pebble);padding-bottom:10px;border-bottom:1px solid var(--stone);margin-bottom:12px;}
+@media(min-width:600px){.works-grid{grid-template-columns:repeat(3,1fr);}.panel{padding:24px;}}
 </style>
 </head>
 <body>
@@ -201,43 +166,32 @@ img{max-width:100%;display:block;}
 <!-- APP -->
 <div class="app" id="app">
   <div class="topbar">
-    <div>
-      <div class="topbar-brand">CJ Davitt</div>
-      <div class="topbar-sub">Studio Manager</div>
-    </div>
+    <div><div class="topbar-brand">CJ Davitt</div><div class="topbar-sub">Studio Manager</div></div>
     <button class="topbar-logout" onclick="logout()">Sign Out</button>
   </div>
-
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showPanel('inquiries',this)">Inquiries <span id="inqBadge"></span></button>
+    <button class="nav-tab active" onclick="showPanel('inquiries',this)">Inquiries</button>
     <button class="nav-tab" onclick="showPanel('works',this)">Works</button>
     <button class="nav-tab" onclick="showPanel('events',this)">Events</button>
   </div>
 
-  <!-- INQUIRIES PANEL -->
+  <!-- INQUIRIES -->
   <div class="panel active" id="panel-inquiries">
-    <div class="stats" id="inqStats">
-      <div class="stat"><div class="stat-n" id="s-open">—</div><div class="stat-l">Open</div></div>
-      <div class="stat"><div class="stat-n" id="s-responded">—</div><div class="stat-l">Responded</div></div>
-      <div class="stat"><div class="stat-n" id="s-sold">—</div><div class="stat-l">Sold</div></div>
-    </div>
     <div class="filter-bar">
-      <button class="filter-chip active" onclick="filterInquiries('all',this)">All</button>
-      <button class="filter-chip" onclick="filterInquiries('Initiated',this)">Initiated</button>
-      <button class="filter-chip" onclick="filterInquiries('Responded',this)">Responded</button>
-      <button class="filter-chip" onclick="filterInquiries('Negotiating',this)">Negotiating</button>
-      <button class="filter-chip" onclick="filterInquiries('Sold',this)">Sold</button>
-      <button class="filter-chip" onclick="filterInquiries('Closed',this)">Closed</button>
+      <button class="filter-chip active" onclick="filterInq('all',this)">All</button>
+      <button class="filter-chip" onclick="filterInq('Initiated',this)">Initiated</button>
+      <button class="filter-chip" onclick="filterInq('Responded',this)">Responded</button>
+      <button class="filter-chip" onclick="filterInq('Negotiating',this)">Negotiating</button>
+      <button class="filter-chip" onclick="filterInq('Sold',this)">Sold</button>
+      <button class="filter-chip" onclick="filterInq('Closed',this)">Closed</button>
     </div>
-    <div id="inqList"><div class="loading"><div class="loading-spinner"></div>Loading inquiries…</div></div>
+    <div id="inqList"><div class="loading"><div class="spinner"></div>Loading…</div></div>
   </div>
 
-  <!-- WORKS PANEL -->
+  <!-- WORKS -->
   <div class="panel" id="panel-works">
-    <button class="btn btn-primary btn-block" style="margin-bottom:8px;" onclick="openAddWork()">+ Add New Painting</button>
-    <button class="btn btn-secondary btn-block" style="margin-bottom:12px;" onclick="openArtistPhoto()">🖼 Update Artist Photo</button>
-    <!-- SLOT SUMMARY -->
-    <div id="slotSummary" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;"></div>
+    <button class="btn btn-primary btn-block" style="margin-bottom:12px;" onclick="openAddWork()">+ Add New Painting</button>
+    <div class="slot-grid" id="slotSummary"></div>
     <div class="filter-bar">
       <button class="filter-chip active" onclick="filterWorks('all',this)">All</button>
       <button class="filter-chip" onclick="filterWorks('Published',this)">Published</button>
@@ -245,10 +199,10 @@ img{max-width:100%;display:block;}
       <button class="filter-chip" onclick="filterWorks('Hidden',this)">Hidden</button>
       <button class="filter-chip" onclick="filterWorks('Sold',this)">Sold</button>
     </div>
-    <div class="works-grid" id="worksList"><div class="loading"><div class="loading-spinner"></div>Loading works…</div></div>
+    <div class="works-grid" id="worksList"><div class="loading"><div class="spinner"></div>Loading…</div></div>
   </div>
 
-  <!-- EVENTS PANEL -->
+  <!-- EVENTS -->
   <div class="panel" id="panel-events">
     <button class="btn btn-primary btn-block" style="margin-bottom:16px;" onclick="openAddEvent()">+ Add Event / Appearance</button>
     <div class="filter-bar">
@@ -257,29 +211,25 @@ img{max-width:100%;display:block;}
       <button class="filter-chip" onclick="filterEvents('Ongoing',this)">Ongoing</button>
       <button class="filter-chip" onclick="filterEvents('Completed',this)">Completed</button>
     </div>
-    <div id="eventsList"><div class="loading"><div class="loading-spinner"></div>Loading events…</div></div>
+    <div id="eventsList"><div class="loading"><div class="spinner"></div>Loading…</div></div>
   </div>
 </div>
 
-<!-- INQUIRY EDIT MODAL -->
+<!-- INQUIRY MODAL -->
 <div class="modal-backdrop" id="inqModal">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title" id="inqModalTitle">Inquiry Details</div>
+    <div class="modal-title" id="inqModalTitle">Inquiry</div>
     <input type="hidden" id="inqEditId"/>
     <div class="form-group">
       <label class="form-label">Status</label>
       <select class="form-select" id="inqEditStatus">
-        <option>Initiated</option>
-        <option>Responded</option>
-        <option>Negotiating</option>
-        <option>Sold</option>
-        <option>Closed</option>
-        <option>No Response</option>
+        <option>Initiated</option><option>Responded</option><option>Negotiating</option>
+        <option>Sold</option><option>Closed</option><option>No Response</option>
       </select>
     </div>
     <div class="form-group">
-      <label class="form-label">CJ Notes</label>
+      <label class="form-label">Notes</label>
       <textarea class="form-textarea" id="inqEditNotes" placeholder="Internal notes…"></textarea>
     </div>
     <div class="form-group">
@@ -287,30 +237,33 @@ img{max-width:100%;display:block;}
       <input type="date" class="form-input" id="inqEditFollowUp"/>
     </div>
     <div class="form-actions">
-      <button class="btn btn-primary" onclick="saveInquiry()">Save Changes</button>
+      <button class="btn btn-primary" onclick="saveInquiry()">Save</button>
       <button class="btn btn-secondary" onclick="closeModal('inqModal')">Cancel</button>
     </div>
   </div>
 </div>
 
-<!-- ADD/EDIT WORK MODAL -->
+<!-- WORK MODAL -->
 <div class="modal-backdrop" id="workModal">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title" id="workModalTitle">Add Painting</div>
-    <input type="hidden" id="workEditId"/>
+    <input type="hidden" id="wId"/>
 
-    <!-- PHOTO PICKER -->
+    <!-- PHOTO -->
     <div class="form-group">
       <label class="form-label">Photo</label>
-      <div id="photoPreview" style="display:none;position:relative;margin-bottom:8px;">
-        <img id="photoPreviewImg" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;display:block;"/>
-        <button onclick="clearPhoto()" style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;width:28px;height:28px;font-size:1rem;cursor:pointer;">✕</button>
+      <div class="photo-preview" id="photoPreview">
+        <img id="photoPreviewImg" src="" alt=""/>
+        <button class="photo-clear" onclick="clearPhoto()">✕</button>
       </div>
-      <input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none;" onchange="handlePhotoSelect(event)"/>
-      <button class="btn btn-secondary btn-block" onclick="document.getElementById('photoInput').click()">📷 Select Photo / Camera</button>
+      <div class="photo-uploading" id="photoUploading">
+        <div class="spinner" style="width:18px;height:18px;flex-shrink:0;"></div>
+        <span>Uploading to image server…</span>
+      </div>
+      <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="handlePhotoSelect(event)"/>
+      <button class="btn btn-secondary btn-block" onclick="document.getElementById('photoInput').click()">📷 Select Photo / Camera Roll</button>
       <input type="hidden" id="wImageUrl"/>
-      <input type="hidden" id="wDriveFileId"/>
     </div>
 
     <div class="form-group">
@@ -319,26 +272,20 @@ img{max-width:100%;display:block;}
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">Medium *</label>
+        <label class="form-label">Medium</label>
         <select class="form-select" id="wMedium">
           <option value="">Select…</option>
-          <option>Oil on Canvas</option>
-          <option>Oil on Panel</option>
-          <option>Colored Pencil</option>
-          <option>Mixed Media</option>
-          <option>Other</option>
+          <option>Oil on Canvas</option><option>Oil on Panel</option>
+          <option>Colored Pencil</option><option>Mixed Media</option><option>Other</option>
         </select>
       </div>
       <div class="form-group">
         <label class="form-label">Category</label>
         <select class="form-select" id="wCategory">
           <option value="">Select…</option>
-          <option>Bobbers & Tackle</option>
-          <option>Seascapes</option>
-          <option>Marine Life</option>
-          <option>Figures</option>
-          <option>Landscapes</option>
-          <option>Other</option>
+          <option>Bobbers & Tackle</option><option>Seascapes</option>
+          <option>Marine Life</option><option>Figures</option>
+          <option>Landscapes</option><option>Other</option>
         </select>
       </div>
     </div>
@@ -356,64 +303,57 @@ img{max-width:100%;display:block;}
       <div class="form-group">
         <label class="form-label">Availability</label>
         <select class="form-select" id="wAvailability" onchange="toggleSoldFields(this.value)">
-          <option>Available</option>
-          <option>In Progress</option>
-          <option>At Gallery</option>
-          <option>Reserved</option>
-          <option>Sold</option>
-          <option>Archived</option>
+          <option>Available</option><option>In Progress</option><option>At Gallery</option>
+          <option>Reserved</option><option>Sold</option><option>Archived</option>
         </select>
       </div>
       <div class="form-group">
         <label class="form-label">Gallery Location</label>
         <select class="form-select" id="wGallery">
-          <option>Studio</option>
-          <option>Frederick Gallery</option>
-          <option>Autumn Elise</option>
-          <option>Noon Designs</option>
-          <option>N/A</option>
+          <option>Studio</option><option>Frederick Gallery</option>
+          <option>Autumn Elise</option><option>Noon Designs</option><option>N/A</option>
         </select>
       </div>
     </div>
 
-    <!-- VISIBILITY + SITE SLOTS -->
-    <div style="border-top:1px solid var(--stone);padding-top:14px;margin-top:4px;">
-      <div style="font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--pebble);margin-bottom:12px;">Site Visibility & Placement</div>
+    <!-- SITE PLACEMENT -->
+    <div style="border-top:1px solid var(--stone);padding-top:14px;margin-top:2px;margin-bottom:14px;">
+      <div class="section-label">Site Visibility & Placement</div>
       <div class="form-group">
         <label class="form-label">Visibility</label>
         <select class="form-select" id="wVisibility">
-          <option>Draft</option>
-          <option>Published</option>
-          <option>Hidden</option>
+          <option>Draft</option><option>Published</option><option>Hidden</option>
         </select>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;">
+      <div class="slots-grid">
         <div class="form-group">
-          <label class="form-label">Hero Image <span style="color:var(--pebble);">(max 1)</span></label>
+          <label class="form-label">Hero Image <small>(max 1 — home page)</small></label>
           <select class="form-select" id="wHeroImage">
-            <option value="No">No</option>
-            <option value="Yes">Yes — Main Page</option>
+            <option value="No">No</option><option value="Yes">Yes</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Featured <span style="color:var(--pebble);">(max 3)</span></label>
+          <label class="form-label">Featured <small>(max 3 — works page)</small></label>
           <select class="form-select" id="wFeatured">
-            <option value="No">No</option>
-            <option value="Yes">Yes — Featured Works</option>
+            <option value="No">No</option><option value="Yes">Yes</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Gallery <span style="color:var(--pebble);">(max 9)</span></label>
+          <label class="form-label">Gallery <small>(max 9 — more works)</small></label>
           <select class="form-select" id="wShowInGallery">
-            <option value="No">No</option>
-            <option value="Yes">Yes — More Works Grid</option>
+            <option value="No">No</option><option value="Yes">Yes</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Commissions <span style="color:var(--pebble);">(max 4)</span></label>
+          <label class="form-label">Commissions <small>(max 4 — commissions page)</small></label>
           <select class="form-select" id="wShowOnCommissions">
-            <option value="No">No</option>
-            <option value="Yes">Yes — Commissions Page</option>
+            <option value="No">No</option><option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Artist Photo <small>(max 1 — about section)</small></label>
+          <select class="form-select" id="wArtistPhoto">
+            <option value="No">No</option><option value="Yes">Yes</option>
           </select>
         </div>
       </div>
@@ -431,8 +371,8 @@ img{max-width:100%;display:block;}
     </div>
 
     <!-- SOLD FIELDS -->
-    <div id="soldFields" style="display:none;border-top:1px solid var(--stone);padding-top:14px;margin-top:4px;">
-      <div style="font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--pebble);margin-bottom:12px;">Sold Details</div>
+    <div id="soldFields" style="display:none;border-top:1px solid var(--stone);padding-top:14px;margin-top:2px;">
+      <div class="section-label">Sold Details</div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Final Sold Price ($)</label>
@@ -457,22 +397,22 @@ img{max-width:100%;display:block;}
 
     <div class="form-group">
       <label class="form-label">Notes</label>
-      <textarea class="form-textarea" id="wNotes" placeholder="Any notes about this piece…" rows="2"></textarea>
+      <textarea class="form-textarea" id="wNotes" placeholder="Description or notes about this piece…" rows="2"></textarea>
     </div>
     <div class="form-actions">
-      <button class="btn btn-primary" onclick="saveWork()">Save Painting</button>
+      <button class="btn btn-primary" id="saveWorkBtn" onclick="saveWork()">Save Painting</button>
       <button class="btn btn-secondary" onclick="closeModal('workModal')">Cancel</button>
-      <button class="btn btn-danger btn-sm" id="deleteWorkBtn" style="margin-left:auto;" onclick="deleteWork()">Delete</button>
+      <button class="btn btn-danger btn-sm" id="deleteWorkBtn" style="display:none;margin-left:auto;" onclick="deleteWork()">Delete</button>
     </div>
   </div>
 </div>
 
-<!-- ADD/EDIT EVENT MODAL -->
+<!-- EVENT MODAL -->
 <div class="modal-backdrop" id="eventModal">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title" id="eventModalTitle">Add Event</div>
-    <input type="hidden" id="eventEditId"/>
+    <input type="hidden" id="evId"/>
     <div class="form-group">
       <label class="form-label">Event Name *</label>
       <input type="text" class="form-input" id="evName" placeholder="e.g. Spring Show — Frederick Gallery"/>
@@ -482,27 +422,21 @@ img{max-width:100%;display:block;}
         <label class="form-label">Event Type</label>
         <select class="form-select" id="evType">
           <option value="">Select…</option>
-          <option>Gallery Opening</option>
-          <option>Art Fair</option>
-          <option>Solo Show</option>
-          <option>Group Show</option>
-          <option>Private Event</option>
-          <option>Pop-Up</option>
+          <option>Gallery Opening</option><option>Art Fair</option><option>Solo Show</option>
+          <option>Group Show</option><option>Private Event</option><option>Pop-Up</option>
         </select>
       </div>
       <div class="form-group">
         <label class="form-label">Status</label>
         <select class="form-select" id="evStatus">
-          <option>Upcoming</option>
-          <option>Ongoing</option>
-          <option>Completed</option>
-          <option>Cancelled</option>
+          <option>Upcoming</option><option>Ongoing</option>
+          <option>Completed</option><option>Cancelled</option>
         </select>
       </div>
     </div>
     <div class="form-group">
       <label class="form-label">Venue Name</label>
-      <input type="text" class="form-input" id="evVenue" placeholder="Frederick Gallery"/>
+      <input type="text" class="form-input" id="evVenue" placeholder="e.g. Frederick Gallery"/>
     </div>
     <div class="form-row">
       <div class="form-group">
@@ -512,6 +446,7 @@ img{max-width:100%;display:block;}
       <div class="form-group">
         <label class="form-label">State</label>
         <select class="form-select" id="evState">
+          <option value="">Select…</option>
           <option>NJ</option><option>NY</option><option>PA</option>
           <option>CT</option><option>DE</option><option>MD</option><option>Other</option>
         </select>
@@ -529,182 +464,181 @@ img{max-width:100%;display:block;}
     </div>
     <div class="form-group">
       <label class="form-label">Description</label>
-      <textarea class="form-textarea" id="evDesc" placeholder="Brief description shown on the website…" rows="3"></textarea>
+      <textarea class="form-textarea" id="evDesc" rows="2" placeholder="Optional notes about this event…"></textarea>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Website / Link</label>
-        <input type="url" class="form-input" id="evWebsite" placeholder="https://…"/>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Show on Site</label>
-        <select class="form-select" id="evShowOnSite">
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-      </div>
+    <div class="form-group">
+      <label class="form-label">Website / Link</label>
+      <input type="url" class="form-input" id="evWebsite" placeholder="https://…"/>
     </div>
     <div class="form-actions">
-      <button class="btn btn-primary" onclick="saveEvent()">Save Event</button>
+      <button class="btn btn-primary" id="saveEventBtn" onclick="saveEvent()">Save Event</button>
       <button class="btn btn-secondary" onclick="closeModal('eventModal')">Cancel</button>
-      <button class="btn btn-danger btn-sm" id="deleteEventBtn" style="margin-left:auto;display:none;" onclick="deleteEvent()">Delete</button>
+      <button class="btn btn-danger btn-sm" id="deleteEventBtn" style="display:none;margin-left:auto;" onclick="deleteEvent()">Delete</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════════
-// CONFIG — replace with your deployed Apps Script URL
-// ═══════════════════════════════════════════════════
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwmyK0ljJsRQG3XXsWIAwr_cNyMuwnvgYblWskEZlrDgWVf4pMSiSut4yK_T68cwBePOA/exec';
+const SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycbwmyK0ljJsRQG3XXsWIAwr_cNyMuwnvgYblWskEZlrDgWVf4pMSiSut4yK_T68cwBePOA/exec';
+const IMGBB_KEY    = '38bd6577ee10cfc3ce7613c2a51bcdc0';
 const ADMIN_PASSWORD = 'cjdavitt2026';
 
-// ── STATE ──
 let allInquiries = [];
-let allWorks = [];
-let allEvents = [];
-let currentFilter = { inquiries: 'all', works: 'all', events: 'all' };
+let allWorks     = [];
+let allEvents    = [];
 
-// ═══════════════════════════════════════════════════
-// AUTH
-// ═══════════════════════════════════════════════════
+// ── AUTH ──
 function login() {
   const pw = document.getElementById('passwordInput').value;
   if (pw === ADMIN_PASSWORD) {
-    sessionStorage.setItem('cj_admin', '1');
     document.getElementById('loginWrap').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     loadAll();
   } else {
     document.getElementById('loginErr').style.display = 'block';
-    document.getElementById('passwordInput').value = '';
   }
 }
-
 function logout() {
-  sessionStorage.removeItem('cj_admin');
-  document.getElementById('loginWrap').style.display = 'flex';
   document.getElementById('app').style.display = 'none';
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('passwordInput').value = '';
 }
 
-if (sessionStorage.getItem('cj_admin')) {
-  document.getElementById('loginWrap').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  loadAll();
-}
-
-// ═══════════════════════════════════════════════════
-// API
-// ═══════════════════════════════════════════════════
+// ── API ──
 async function api(action, data = {}) {
   const res = await fetch(SCRIPT_URL, {
     method: 'POST',
-    body: JSON.stringify({ action, password: ADMIN_PASSWORD, ...data }),
+    body: JSON.stringify({ action, password: ADMIN_PASSWORD, ...data })
   });
   return res.json();
 }
 
-async function loadAll() {
-  loadInquiries();
-  loadWorks();
-  loadEvents();
+// ── IMAGE UPLOAD TO IMGBB ──
+// Images go directly from browser to ImgBB — no Apps Script involved
+// Returns a permanent public URL safe to use in <img> tags
+async function uploadToImgBB(base64Data) {
+  const formData = new FormData();
+  formData.append('key', IMGBB_KEY);
+  formData.append('image', base64Data);
+  const res = await fetch('https://api.imgbb.com/1/upload', {
+    method: 'POST',
+    body: formData
+  });
+  const d = await res.json();
+  if (d.success) return d.data.url;
+  throw new Error(d.error?.message || 'ImgBB upload failed');
 }
 
-// ═══════════════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════════════
+function compressImage(file, maxPx = 1400, quality = 0.85) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        if (w > maxPx || h > maxPx) {
+          if (w > h) { h = Math.round(h * maxPx / w); w = maxPx; }
+          else { w = Math.round(w * maxPx / h); h = maxPx; }
+        }
+        // Correct EXIF orientation
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        // Return base64 without the data: prefix
+        resolve(canvas.toDataURL('image/jpeg', quality).split(',')[1]);
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ── NAV ──
 function showPanel(name, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
   document.getElementById('panel-' + name).classList.add('active');
   btn.classList.add('active');
 }
 
-// ═══════════════════════════════════════════════════
+function showToast(msg, duration = 2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// ── LOAD ALL ──
+function loadAll() { loadInquiries(); loadWorks(); loadEvents(); }
+
+// ═════════════════════════════════════
 // INQUIRIES
-// ═══════════════════════════════════════════════════
+// ═════════════════════════════════════
+
 async function loadInquiries() {
   const res = await api('get_inquiries');
   if (!res.success) return;
   allInquiries = (res.data || []).reverse();
-  renderInquiries();
-  updateInqStats();
+  renderInquiries(allInquiries);
 }
 
-function updateInqStats() {
-  const open = allInquiries.filter(i => i['Status'] === 'Initiated').length;
-  const responded = allInquiries.filter(i => i['Status'] === 'Responded').length;
-  const sold = allInquiries.filter(i => i['Status'] === 'Sold').length;
-  document.getElementById('s-open').textContent = open;
-  document.getElementById('s-responded').textContent = responded;
-  document.getElementById('s-sold').textContent = sold;
-  const badge = document.getElementById('inqBadge');
-  badge.textContent = open > 0 ? ` (${open})` : '';
-}
-
-function filterInquiries(status, btn) {
-  currentFilter.inquiries = status;
-  document.querySelectorAll('.filter-bar .filter-chip').forEach(c => c.classList.remove('active'));
-  btn.classList.add('active');
-  renderInquiries();
-}
-
-function renderInquiries() {
-  const list = document.getElementById('inqList');
-  const filtered = currentFilter.inquiries === 'all'
-    ? allInquiries
-    : allInquiries.filter(i => i['Status'] === currentFilter.inquiries);
-
-  if (!filtered.length) {
-    list.innerHTML = '<div class="empty"><div class="empty-icon">📬</div><div class="empty-text">No inquiries found</div></div>';
-    return;
-  }
-
-  list.innerHTML = filtered.map(inq => `
-    <div class="inq-card" id="inq-${inq['Inquiry ID']}">
+function renderInquiries(list) {
+  const el = document.getElementById('inqList');
+  if (!list.length) { el.innerHTML = '<div class="loading">No inquiries yet.</div>'; return; }
+  el.innerHTML = list.map(inq => {
+    const status = inq['Status'] || 'Initiated';
+    const badgeClass = 'badge-' + status.toLowerCase().replace(' ','');
+    return `<div class="inq-card" id="inq-${inq['Inquiry ID']}">
       <div class="inq-header" onclick="toggleInq('${inq['Inquiry ID']}')">
-        <div class="inq-thumb-placeholder">${inq['Painting Title'] ? inq['Painting Title'].substring(0,12) : '—'}</div>
         <div class="inq-meta">
           <div class="inq-name">${inq['First Name']} ${inq['Last Name']}</div>
           <div class="inq-painting">${inq['Painting Title'] || 'General inquiry'}</div>
           <div class="inq-row">
-            <span class="badge ${badgeClass(inq['Status'])}">${inq['Status']}</span>
+            <span class="badge ${badgeClass}">${status}</span>
             <span class="inq-date">${inq['Date Received']}</span>
           </div>
         </div>
-        <div class="inq-chevron">▾</div>
+        <span class="inq-chevron">▾</span>
       </div>
       <div class="inq-body">
         <div class="inq-contact-grid">
-          <div class="inq-contact-item"><strong>Email</strong><a href="mailto:${inq['Email']}" style="color:var(--ink);">${inq['Email']}</a></div>
+          <div class="inq-contact-item"><strong>Email</strong>${inq['Email']}</div>
           <div class="inq-contact-item"><strong>Phone</strong>${inq['Phone'] || '—'}</div>
           <div class="inq-contact-item"><strong>Type</strong>${inq['Inquiry Type'] || '—'}</div>
-          <div class="inq-contact-item"><strong>ID</strong>${inq['Inquiry ID']}</div>
+          <div class="inq-contact-item"><strong>Follow Up</strong>${inq['Follow Up Date'] || '—'}</div>
         </div>
         <div class="inq-message">${inq['Message']}</div>
-        ${inq['CJ Notes'] ? `<div style="font-size:.78rem;color:var(--drift);margin-bottom:10px;"><strong style="font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pebble);font-weight:400;display:block;margin-bottom:3px;">Notes</strong>${inq['CJ Notes']}</div>` : ''}
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn btn-primary btn-sm" onclick="openEditInquiry('${inq['Inquiry ID']}')">Edit Status / Notes</button>
-          <a href="mailto:${inq['Email']}?subject=Re: ${encodeURIComponent(inq['Painting Title'] || 'Your Inquiry')}" class="btn btn-secondary btn-sm" style="text-decoration:none;">Reply via Email</a>
-        </div>
+        ${inq['CJ Notes'] ? `<div style="font-size:.78rem;color:var(--drift);margin-bottom:10px;"><strong style="font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--pebble);">Notes</strong><br>${inq['CJ Notes']}</div>` : ''}
+        <button class="btn btn-secondary btn-sm" onclick="openEditInq('${inq['Inquiry ID']}')">Edit Status / Notes</button>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function toggleInq(id) {
   document.getElementById('inq-' + id).classList.toggle('open');
 }
 
-function openEditInquiry(id) {
+function filterInq(val, btn) {
+  document.querySelectorAll('#panel-inquiries .filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = val === 'all' ? allInquiries : allInquiries.filter(i => i['Status'] === val);
+  renderInquiries(filtered);
+}
+
+function openEditInq(id) {
   const inq = allInquiries.find(i => i['Inquiry ID'] === id);
   if (!inq) return;
-  document.getElementById('inqEditId').value = id;
   document.getElementById('inqModalTitle').textContent = `${inq['First Name']} ${inq['Last Name']}`;
-  document.getElementById('inqEditStatus').value = inq['Status'];
+  document.getElementById('inqEditId').value = id;
+  document.getElementById('inqEditStatus').value = inq['Status'] || 'Initiated';
   document.getElementById('inqEditNotes').value = inq['CJ Notes'] || '';
   document.getElementById('inqEditFollowUp').value = inq['Follow Up Date'] || '';
   openModal('inqModal');
@@ -712,59 +646,22 @@ function openEditInquiry(id) {
 
 async function saveInquiry() {
   const id = document.getElementById('inqEditId').value;
+  const btn = document.querySelector('#inqModal .btn-primary');
+  btn.textContent = 'Saving…'; btn.disabled = true;
   const res = await api('update_inquiry', {
     id,
     status: document.getElementById('inqEditStatus').value,
     notes: document.getElementById('inqEditNotes').value,
-    followUpDate: document.getElementById('inqEditFollowUp').value,
+    followUpDate: document.getElementById('inqEditFollowUp').value
   });
-  if (res.success) {
-    closeModal('inqModal');
-    showToast('Inquiry updated');
-    loadInquiries();
-  } else {
-    showToast('Error: ' + res.error);
-  }
+  btn.textContent = 'Save'; btn.disabled = false;
+  if (res.success) { closeModal('inqModal'); loadInquiries(); showToast('Inquiry updated'); }
+  else alert(res.error || 'Save failed');
 }
 
-// ═══════════════════════════════════════════════════
+// ═════════════════════════════════════
 // WORKS
-
-let pendingPhotoBase64 = null;
-let pendingPhotoMime = null;
-
-function handlePhotoSelect(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  // Compress before uploading
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const img = new Image();
-    img.onload = function() {
-      const canvas = document.createElement('canvas');
-      const MAX = 1200;
-      let w = img.width, h = img.height;
-      if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      const compressed = canvas.toDataURL('image/jpeg', 0.82);
-      pendingPhotoBase64 = compressed.split(',')[1];
-      pendingPhotoMime = 'image/jpeg';
-      document.getElementById('photoPreviewImg').src = compressed;
-      document.getElementById('photoPreview').style.display = 'block';
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-function clearPhoto() {
-  pendingPhotoBase64 = null;
-  pendingPhotoMime = null;
-  document.getElementById('photoPreview').style.display = 'none';
-  document.getElementById('photoPreviewImg').src = '';
-  document.getElementById('photoInput').value = '';
-}
+// ═════════════════════════════════════
 
 async function loadWorks() {
   const res = await api('get_works');
@@ -776,50 +673,50 @@ async function loadWorks() {
 
 function renderSlotSummary(works) {
   const slots = [
-    { key: 'Hero Image', max: 1, label: 'Hero' },
-    { key: 'Featured', max: 3, label: 'Featured' },
-    { key: 'Show in Gallery', max: 9, label: 'Gallery' },
-    { key: 'Show on Commissions', max: 4, label: 'Commissions' },
+    { field:'Hero Image', max:1, label:'Hero' },
+    { field:'Featured', max:3, label:'Featured' },
+    { field:'Show in Gallery', max:9, label:'Gallery' },
+    { field:'Show on Commissions', max:4, label:'Commissions' },
+    { field:'Artist Photo', max:1, label:'Artist Photo' },
   ];
-  const el = document.getElementById('slotSummary');
-  el.innerHTML = slots.map(s => {
-    const count = works.filter(w => w[s.key] === 'Yes').length;
-    const pct = Math.round(count / s.max * 100);
-    const color = count >= s.max ? '#c0392b' : count > 0 ? '#1a3a35' : '#b0aca4';
-    return `<div style="background:var(--paper);border:1px solid var(--stone);border-radius:8px;padding:8px 10px;">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
-        <span style="font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--pebble);">${s.label}</span>
-        <span style="font-size:.75rem;font-weight:500;color:${color};">${count}/${s.max}</span>
+  document.getElementById('slotSummary').innerHTML = slots.map(s => {
+    const count = works.filter(w => w[s.field] === 'Yes').length;
+    const pct   = Math.round(count / s.max * 100);
+    const color = count >= s.max ? 'var(--red)' : count > 0 ? 'var(--green)' : 'var(--stone)';
+    const countColor = count >= s.max ? 'var(--red)' : 'var(--ink)';
+    return `<div class="slot-item">
+      <div class="slot-header">
+        <span class="slot-label">${s.label}</span>
+        <span class="slot-count" style="color:${countColor}">${count}/${s.max}</span>
       </div>
-      <div style="height:3px;background:var(--stone);border-radius:2px;overflow:hidden;">
-        <div style="height:100%;width:${pct}%;background:${color};transition:width .3s;"></div>
-      </div>
+      <div class="slot-bar"><div class="slot-fill" style="width:${pct}%;background:${color};"></div></div>
     </div>`;
   }).join('');
 }
 
 function renderWorks(works) {
-  const list = document.getElementById('worksList');
-  if (!works.length) { list.innerHTML = '<div style="text-align:center;color:var(--pebble);padding:32px;font-size:.85rem;">No paintings yet — tap + Add New Painting</div>'; return; }
-  list.innerHTML = works.map(w => {
+  const el = document.getElementById('worksList');
+  if (!works.length) { el.innerHTML = '<div class="loading">No paintings yet.</div>'; return; }
+  el.innerHTML = works.map(w => {
     const badges = [];
-    if (w['Hero Image'] === 'Yes') badges.push('<span style="background:#1a3a35;color:#fff;font-size:.48rem;padding:2px 7px;border-radius:100px;letter-spacing:.1em;">HERO</span>');
-    if (w['Featured'] === 'Yes') badges.push('<span style="background:#162535;color:#fff;font-size:.48rem;padding:2px 7px;border-radius:100px;letter-spacing:.1em;">FEATURED</span>');
-    if (w['Show in Gallery'] === 'Yes') badges.push('<span style="background:#2d5a52;color:#fff;font-size:.48rem;padding:2px 7px;border-radius:100px;letter-spacing:.1em;">GALLERY</span>');
-    if (w['Show on Commissions'] === 'Yes') badges.push('<span style="background:#5a3a1a;color:#fff;font-size:.48rem;padding:2px 7px;border-radius:100px;letter-spacing:.1em;">COMM</span>');
-    const visColor = w['Visibility'] === 'Published' ? '#2d6a4f' : w['Visibility'] === 'Draft' ? '#856404' : '#7a7670';
-    const imgHtml = w['Image URL'] ? `<img src="${w['Image URL']}" style="width:72px;height:54px;object-fit:cover;border-radius:6px;flex-shrink:0;" onerror="this.style.display='none'"/>` : `<div style="width:72px;height:54px;background:var(--stone);border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--pebble);">No photo</div>`;
-    return `<div class="inquiry-card" onclick="openEditWork('${w['Work ID']}')">
-      <div style="display:flex;gap:12px;align-items:flex-start;">
-        ${imgHtml}
-        <div style="flex:1;min-width:0;">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px;">
-            <div style="font-weight:500;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${w['Title'] || 'Untitled'}</div>
-            <span style="font-size:.6rem;color:${visColor};white-space:nowrap;">${w['Visibility']}</span>
-          </div>
-          <div style="font-size:.75rem;color:var(--pebble);margin-bottom:6px;">${w['Medium'] || ''} ${w['Width (in)'] ? '· ' + w['Width (in)'] + '″ × ' + w['Height (in)'] + '″' : ''}</div>
-          <div style="display:flex;gap:4px;flex-wrap:wrap;">${badges.join('')}</div>
+    if (w['Hero Image']==='Yes') badges.push('<span class="badge badge-hero">HERO</span>');
+    if (w['Featured']==='Yes') badges.push('<span class="badge badge-featured">FEATURED</span>');
+    if (w['Show in Gallery']==='Yes') badges.push('<span class="badge badge-gallery">GALLERY</span>');
+    if (w['Show on Commissions']==='Yes') badges.push('<span class="badge badge-comm">COMM</span>');
+    if (w['Artist Photo']==='Yes') badges.push('<span class="badge badge-artist">ARTIST</span>');
+    const vis = (w['Visibility']||'Draft').toLowerCase();
+    const imgHtml = w['Image URL']
+      ? `<img class="work-img" src="${w['Image URL']}" alt="${w['Title']}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/><div class="work-img-placeholder" style="display:none;">No image</div>`
+      : `<div class="work-img-placeholder">No image</div>`;
+    return `<div class="work-card" onclick="openEditWork('${w['Work ID']}')">
+      ${imgHtml}
+      <div class="work-body">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:6px;margin-bottom:2px;">
+          <div class="work-title">${w['Title']||'Untitled'}</div>
+          <span class="badge badge-${vis}" style="flex-shrink:0;">${w['Visibility']||'Draft'}</span>
         </div>
+        <div class="work-medium">${w['Medium']||''}${w['Width (in)']?' · '+w['Width (in)']+'″ × '+w['Height (in)']+'″':''}</div>
+        <div class="work-badges">${badges.join('')}</div>
       </div>
     </div>`;
   }).join('');
@@ -828,32 +725,73 @@ function renderWorks(works) {
 function filterWorks(val, btn) {
   document.querySelectorAll('#panel-works .filter-chip').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  currentFilter.works = val;
-  const filtered = val === 'all' ? allWorks : allWorks.filter(w =>
-    w['Visibility'] === val || w['Availability'] === val
-  );
+  const filtered = val === 'all' ? allWorks
+    : allWorks.filter(w => w['Visibility']===val || w['Availability']===val);
   renderWorks(filtered);
 }
 
-function openAddWork() {
-  document.getElementById('workModalTitle').textContent = 'Add Painting';
-  document.getElementById('workEditId').value = '';
-  document.getElementById('deleteWorkBtn').style.display = 'none';
-  clearPhoto();
+// ── PHOTO HANDLING ──
+let pendingImageUrl = null; // final ImgBB URL after upload
+
+function handlePhotoSelect(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  // Show uploading state immediately
+  document.getElementById('photoPreview').style.display = 'none';
+  document.getElementById('photoUploading').classList.add('active');
+
+  compressImage(file).then(base64 => {
+    // Show preview while uploading
+    document.getElementById('photoPreviewImg').src = 'data:image/jpeg;base64,' + base64;
+    document.getElementById('photoPreview').style.display = 'block';
+    // Upload to ImgBB
+    return uploadToImgBB(base64);
+  }).then(url => {
+    pendingImageUrl = url;
+    document.getElementById('wImageUrl').value = url;
+    document.getElementById('photoUploading').classList.remove('active');
+    showToast('Photo uploaded ✓');
+  }).catch(err => {
+    document.getElementById('photoUploading').classList.remove('active');
+    document.getElementById('photoPreview').style.display = 'none';
+    alert('Photo upload failed: ' + err.message);
+  });
+}
+
+function clearPhoto() {
+  pendingImageUrl = null;
+  document.getElementById('wImageUrl').value = '';
+  document.getElementById('photoPreview').style.display = 'none';
+  document.getElementById('photoPreviewImg').src = '';
+  document.getElementById('photoInput').value = '';
+}
+
+// ── WORK MODAL ──
+function resetWorkForm() {
   ['wTitle','wWidth','wHeight','wAskingPrice','wNotes','wCollectorName','wCollectorEmail','wSoldPrice'].forEach(id => {
     const el = document.getElementById(id); if(el) el.value = '';
   });
-  ['wMedium','wCategory','wGallery'].forEach(id => {
-    const el = document.getElementById(id); if(el) el.selectedIndex = 0;
-  });
+  document.getElementById('wMedium').value = '';
+  document.getElementById('wCategory').value = '';
+  document.getElementById('wGallery').value = 'Studio';
   document.getElementById('wAvailability').value = 'Available';
   document.getElementById('wVisibility').value = 'Draft';
   document.getElementById('wHeroImage').value = 'No';
   document.getElementById('wFeatured').value = 'No';
   document.getElementById('wShowInGallery').value = 'No';
   document.getElementById('wShowOnCommissions').value = 'No';
-  document.getElementById('soldFields').style.display = 'none';
+  document.getElementById('wArtistPhoto').value = 'No';
   document.getElementById('wDateCompleted').value = '';
+  document.getElementById('wDateSold').value = '';
+  document.getElementById('soldFields').style.display = 'none';
+  clearPhoto();
+}
+
+function openAddWork() {
+  document.getElementById('workModalTitle').textContent = 'Add Painting';
+  document.getElementById('wId').value = '';
+  document.getElementById('deleteWorkBtn').style.display = 'none';
+  resetWorkForm();
   openModal('workModal');
 }
 
@@ -861,9 +799,9 @@ function openEditWork(id) {
   const w = allWorks.find(x => x['Work ID'] === id);
   if (!w) return;
   document.getElementById('workModalTitle').textContent = 'Edit Painting';
-  document.getElementById('workEditId').value = id;
+  document.getElementById('wId').value = id;
   document.getElementById('deleteWorkBtn').style.display = 'block';
-  clearPhoto();
+  resetWorkForm();
   document.getElementById('wTitle').value = w['Title'] || '';
   document.getElementById('wMedium').value = w['Medium'] || '';
   document.getElementById('wCategory').value = w['Category'] || '';
@@ -876,12 +814,12 @@ function openEditWork(id) {
   document.getElementById('wFeatured').value = w['Featured'] || 'No';
   document.getElementById('wShowInGallery').value = w['Show in Gallery'] || 'No';
   document.getElementById('wShowOnCommissions').value = w['Show on Commissions'] || 'No';
+  document.getElementById('wArtistPhoto').value = w['Artist Photo'] || 'No';
   document.getElementById('wAskingPrice').value = w['Asking Price'] || '';
   document.getElementById('wDateCompleted').value = w['Date Completed'] || '';
   document.getElementById('wNotes').value = w['CJ Notes'] || '';
   document.getElementById('wImageUrl').value = w['Image URL'] || '';
-  document.getElementById('wDriveFileId').value = w['Drive File ID'] || '';
-  // Show photo preview if image exists
+  pendingImageUrl = w['Image URL'] || null;
   if (w['Image URL']) {
     document.getElementById('photoPreviewImg').src = w['Image URL'];
     document.getElementById('photoPreview').style.display = 'block';
@@ -903,33 +841,17 @@ function toggleSoldFields(val) {
 async function saveWork() {
   const title = document.getElementById('wTitle').value.trim();
   if (!title) { alert('Title is required.'); return; }
-  const btn = document.querySelector('#workModal .btn-primary');
+  const uploading = document.getElementById('photoUploading').classList.contains('active');
+  if (uploading) { alert('Photo is still uploading — please wait.'); return; }
+
+  const btn = document.getElementById('saveWorkBtn');
   btn.textContent = 'Saving…'; btn.disabled = true;
 
   try {
-    let imageUrl = document.getElementById('wImageUrl').value;
-    let driveFileId = document.getElementById('wDriveFileId').value;
-
-    // Upload new photo to Drive if selected
-    if (pendingPhotoBase64) {
-      const upRes = await api('upload_image', {
-        imageData: pendingPhotoBase64,
-        mimeType: pendingPhotoMime || 'image/jpeg',
-        workId: document.getElementById('workEditId').value || null
-      });
-      if (upRes.success) {
-        imageUrl = upRes.url;
-        driveFileId = upRes.fileId;
-      } else {
-        alert('Photo upload failed: ' + upRes.error);
-        btn.textContent = 'Save Painting'; btn.disabled = false;
-        return;
-      }
-    }
-
     const payload = {
-      id: document.getElementById('workEditId').value || null,
-      title, imageUrl, driveFileId,
+      id: document.getElementById('wId').value || null,
+      title,
+      imageUrl: document.getElementById('wImageUrl').value || '',
       medium: document.getElementById('wMedium').value,
       category: document.getElementById('wCategory').value,
       width: document.getElementById('wWidth').value,
@@ -941,83 +863,62 @@ async function saveWork() {
       featured: document.getElementById('wFeatured').value,
       showInGallery: document.getElementById('wShowInGallery').value,
       showOnCommissions: document.getElementById('wShowOnCommissions').value,
+      artistPhoto: document.getElementById('wArtistPhoto').value,
       askingPrice: document.getElementById('wAskingPrice').value,
       dateCompleted: document.getElementById('wDateCompleted').value,
       notes: document.getElementById('wNotes').value,
-      soldPrice: document.getElementById('wSoldPrice').value,
+      finalSoldPrice: document.getElementById('wSoldPrice').value,
       dateSold: document.getElementById('wDateSold').value,
       collectorName: document.getElementById('wCollectorName').value,
       collectorEmail: document.getElementById('wCollectorEmail').value,
     };
-
     const action = payload.id ? 'update_work' : 'add_work';
     const res = await api(action, payload);
     if (res.success) {
       closeModal('workModal');
       loadWorks();
+      showToast(payload.id ? 'Painting updated ✓' : 'Painting added ✓');
     } else {
-      alert(res.error || 'Save failed.');
+      alert(res.error || 'Save failed');
     }
-  } catch(e) {
-    alert('Error: ' + e.message);
-  }
+  } catch(e) { alert('Error: ' + e.message); }
   btn.textContent = 'Save Painting'; btn.disabled = false;
 }
 
 async function deleteWork() {
-  const id = document.getElementById('workEditId').value;
+  const id = document.getElementById('wId').value;
   if (!id || !confirm('Delete this painting? This cannot be undone.')) return;
   const res = await api('delete_work', { id });
-  if (res.success) { closeModal('workModal'); loadWorks(); }
-  else alert(res.error || 'Delete failed.');
+  if (res.success) { closeModal('workModal'); loadWorks(); showToast('Painting deleted'); }
+  else alert(res.error || 'Delete failed');
 }
 
-
+// ═════════════════════════════════════
 // EVENTS
-// ═══════════════════════════════════════════════════
+// ═════════════════════════════════════
+
 async function loadEvents() {
   const res = await api('get_events');
   if (!res.success) return;
   allEvents = res.data || [];
-  renderEvents();
+  renderEvents(allEvents);
 }
 
-function filterEvents(filter, btn) {
-  currentFilter.events = filter;
-  document.querySelectorAll('#panel-events .filter-chip').forEach(c => c.classList.remove('active'));
-  btn.classList.add('active');
-  renderEvents();
-}
-
-function renderEvents() {
-  const list = document.getElementById('eventsList');
-  const filtered = currentFilter.events === 'all'
-    ? allEvents
-    : allEvents.filter(e => e['Status'] === currentFilter.events);
-
-  if (!filtered.length) {
-    list.innerHTML = '<div class="empty"><div class="empty-icon">📅</div><div class="empty-text">No events found</div></div>';
-    return;
-  }
-
-  list.innerHTML = filtered.map(ev => {
-    const startDate = ev['Start Date'] ? new Date(ev['Start Date']) : null;
-    const day = startDate ? startDate.getDate() : '—';
-    const mon = startDate ? startDate.toLocaleString('default', { month: 'short' }).toUpperCase() : '';
-    return `
-    <div class="event-item">
-      <div class="event-date-block">
-        <div class="event-date-day">${day}</div>
-        <div class="event-date-mon">${mon}</div>
-      </div>
+function renderEvents(list) {
+  const el = document.getElementById('eventsList');
+  if (!list.length) { el.innerHTML = '<div class="loading">No events yet.</div>'; return; }
+  el.innerHTML = list.map(ev => {
+    const dt  = ev['Start Date'] ? new Date(ev['Start Date']) : null;
+    const day = dt ? dt.getDate() : '—';
+    const mon = dt ? dt.toLocaleString('default',{month:'short'}).toUpperCase() : '—';
+    const status = ev['Status'] || 'Upcoming';
+    const badgeClass = 'badge-' + status.toLowerCase();
+    return `<div class="event-item">
+      <div class="event-date-block"><div class="event-date-day">${day}</div><div class="event-date-mon">${mon}</div></div>
       <div class="event-info">
         <div class="event-name">${ev['Event Name']}</div>
-        <div class="event-venue">${ev['Venue Name'] || ''} ${ev['City'] ? '· ' + ev['City'] + ', ' + ev['State'] : ''}</div>
-        <div class="event-badges">
-          <span class="badge ${badgeClass(ev['Status'])}">${ev['Status']}</span>
-          ${ev['Event Type'] ? `<span class="badge" style="background:var(--paper);color:var(--pebble);border:1px solid var(--stone);">${ev['Event Type']}</span>` : ''}
-          ${ev['Show on Site'] === 'Yes' ? '<span class="badge" style="background:var(--green-bg);color:var(--green);">On Site</span>' : ''}
-        </div>
+        <div class="event-venue">${ev['Venue Name']||''} · ${ev['City']||''}, ${ev['State']||''}</div>
+        <div class="event-badges"><span class="badge ${badgeClass}">${status}</span></div>
       </div>
       <div class="event-actions">
         <button class="btn btn-secondary btn-sm" onclick="openEditEvent('${ev['Event ID']}')">Edit</button>
@@ -1026,18 +927,22 @@ function renderEvents() {
   }).join('');
 }
 
+function filterEvents(val, btn) {
+  document.querySelectorAll('#panel-events .filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderEvents(val === 'all' ? allEvents : allEvents.filter(e => e['Status'] === val));
+}
+
 function openAddEvent() {
   document.getElementById('eventModalTitle').textContent = 'Add Event';
-  document.getElementById('eventEditId').value = '';
+  document.getElementById('evId').value = '';
   document.getElementById('deleteEventBtn').style.display = 'none';
-  ['evName','evVenue','evCity','evDesc','evWebsite','evStartDate','evEndDate'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = '';
-  });
+  ['evName','evVenue','evCity','evDesc','evWebsite'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('evType').value = '';
+  document.getElementById('evState').value = '';
   document.getElementById('evStatus').value = 'Upcoming';
-  document.getElementById('evState').value = 'NJ';
-  document.getElementById('evShowOnSite').value = 'Yes';
+  document.getElementById('evStartDate').value = '';
+  document.getElementById('evEndDate').value = '';
   openModal('eventModal');
 }
 
@@ -1045,188 +950,61 @@ function openEditEvent(id) {
   const ev = allEvents.find(e => e['Event ID'] === id);
   if (!ev) return;
   document.getElementById('eventModalTitle').textContent = 'Edit Event';
-  document.getElementById('eventEditId').value = id;
+  document.getElementById('evId').value = id;
   document.getElementById('deleteEventBtn').style.display = 'block';
-  document.getElementById('evName').value = ev['Event Name'] || '';
-  document.getElementById('evType').value = ev['Event Type'] || '';
-  document.getElementById('evStatus').value = ev['Status'] || 'Upcoming';
-  document.getElementById('evVenue').value = ev['Venue Name'] || '';
-  document.getElementById('evCity').value = ev['City'] || '';
-  document.getElementById('evState').value = ev['State'] || 'NJ';
-  document.getElementById('evStartDate').value = ev['Start Date'] || '';
-  document.getElementById('evEndDate').value = ev['End Date'] || '';
-  document.getElementById('evDesc').value = ev['Description'] || '';
+  document.getElementById('evName').value    = ev['Event Name'] || '';
+  document.getElementById('evType').value    = ev['Event Type'] || '';
+  document.getElementById('evStatus').value  = ev['Status'] || 'Upcoming';
+  document.getElementById('evVenue').value   = ev['Venue Name'] || '';
+  document.getElementById('evCity').value    = ev['City'] || '';
+  document.getElementById('evState').value   = ev['State'] || '';
+  document.getElementById('evStartDate').value = ev['Start Date'] ? ev['Start Date'].substring(0,10) : '';
+  document.getElementById('evEndDate').value   = ev['End Date'] ? ev['End Date'].substring(0,10) : '';
+  document.getElementById('evDesc').value    = ev['Description'] || '';
   document.getElementById('evWebsite').value = ev['Website'] || '';
-  document.getElementById('evShowOnSite').value = ev['Show on Site'] || 'Yes';
   openModal('eventModal');
 }
 
 async function saveEvent() {
-  const id = document.getElementById('eventEditId').value;
-  const isNew = !id;
-  const payload = {
-    eventName: document.getElementById('evName').value,
-    eventType: document.getElementById('evType').value,
-    status: document.getElementById('evStatus').value,
-    venueName: document.getElementById('evVenue').value,
-    city: document.getElementById('evCity').value,
-    state: document.getElementById('evState').value,
-    startDate: document.getElementById('evStartDate').value,
-    endDate: document.getElementById('evEndDate').value,
-    description: document.getElementById('evDesc').value,
-    website: document.getElementById('evWebsite').value,
-    showOnSite: document.getElementById('evShowOnSite').value,
-  };
-
-  if (!payload.eventName) { showToast('Event name is required'); return; }
-
-  const action = isNew ? 'add_event' : 'update_event';
-  if (!isNew) payload.id = id;
-
-  const res = await api(action, payload);
-  if (res.success) {
-    closeModal('eventModal');
-    showToast(isNew ? 'Event added' : 'Event updated');
-    loadEvents();
-  } else {
-    showToast('Error: ' + res.error);
-  }
+  const name = document.getElementById('evName').value.trim();
+  if (!name) { alert('Event name is required.'); return; }
+  const btn = document.getElementById('saveEventBtn');
+  btn.textContent = 'Saving…'; btn.disabled = true;
+  try {
+    const id = document.getElementById('evId').value;
+    const payload = {
+      id: id || null,
+      eventName: name,
+      eventType: document.getElementById('evType').value,
+      status: document.getElementById('evStatus').value,
+      venueName: document.getElementById('evVenue').value,
+      city: document.getElementById('evCity').value,
+      state: document.getElementById('evState').value,
+      startDate: document.getElementById('evStartDate').value,
+      endDate: document.getElementById('evEndDate').value,
+      description: document.getElementById('evDesc').value,
+      website: document.getElementById('evWebsite').value,
+      showOnSite: 'Yes'
+    };
+    const action = id ? 'update_event' : 'add_event';
+    const res = await api(action, payload);
+    if (res.success) {
+      closeModal('eventModal');
+      loadEvents();
+      showToast(id ? 'Event updated ✓' : 'Event added ✓');
+    } else {
+      alert(res.error || 'Save failed');
+    }
+  } catch(e) { alert('Error: ' + e.message); }
+  btn.textContent = 'Save Event'; btn.disabled = false;
 }
 
 async function deleteEvent() {
-  if (!confirm('Delete this event?')) return;
-  const id = document.getElementById('eventEditId').value;
+  const id = document.getElementById('evId').value;
+  if (!id || !confirm('Delete this event?')) return;
   const res = await api('delete_event', { id });
-  if (res.success) {
-    closeModal('eventModal');
-    showToast('Event deleted');
-    loadEvents();
-  }
-}
-
-// ═══════════════════════════════════════════════════
-// UTILITIES
-// ═══════════════════════════════════════════════════
-function badgeClass(status) {
-  const map = {
-    'Initiated': 'badge-initiated', 'Responded': 'badge-responded',
-    'Negotiating': 'badge-negotiating', 'Sold': 'badge-sold',
-    'Closed': 'badge-closed', 'No Response': 'badge-noresponse',
-    'Available': 'badge-available', 'At Gallery': 'badge-atgallery',
-    'In Progress': 'badge-inprogress', 'Reserved': 'badge-reserved',
-    'Archived': 'badge-archived', 'Upcoming': 'badge-upcoming',
-    'Ongoing': 'badge-ongoing', 'Completed': 'badge-completed',
-    'Cancelled': 'badge-cancelled', 'Published': 'badge-published',
-    'Draft': 'badge-draft', 'Hidden': 'badge-hidden',
-  };
-  return map[status] || '';
-}
-
-function openModal(id) {
-  document.getElementById(id).classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-// Close modal on backdrop click
-document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
-  backdrop.addEventListener('click', e => {
-    if (e.target === backdrop) closeModal(backdrop.id);
-  });
-});
-
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2800);
-}
-</script>
-<!-- ARTIST PHOTO MODAL -->
-<div class="modal-backdrop" id="artistPhotoModal">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Update Artist Photo</div>
-    <p style="font-size:.8rem;color:var(--pebble);margin-bottom:16px;">This photo appears on the About page and Works sidebar.</p>
-    <div class="form-group">
-      <div id="artistPhotoPreview" style="display:none;margin-bottom:8px;">
-        <img id="artistPhotoPreviewImg" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;display:block;"/>
-      </div>
-      <input type="file" id="artistPhotoInput" accept="image/*" capture="environment" style="display:none;" onchange="handleArtistPhotoSelect(event)"/>
-      <button class="btn btn-secondary btn-block" onclick="document.getElementById('artistPhotoInput').click()">📷 Select Photo</button>
-    </div>
-    <div class="form-actions">
-      <button class="btn btn-primary" onclick="saveArtistPhoto()">Save Artist Photo</button>
-      <button class="btn btn-secondary" onclick="closeModal('artistPhotoModal')">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<script>
-let pendingArtistPhotoBase64 = null;
-
-function openArtistPhoto() {
-  pendingArtistPhotoBase64 = null;
-  document.getElementById('artistPhotoPreview').style.display = 'none';
-  document.getElementById('artistPhotoInput').value = '';
-  openModal('artistPhotoModal');
-}
-
-function handleArtistPhotoSelect(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const img = new Image();
-    img.onload = function() {
-      const canvas = document.createElement('canvas');
-      const MAX = 1200;
-      let w = img.width, h = img.height;
-      if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      const compressed = canvas.toDataURL('image/jpeg', 0.85);
-      pendingArtistPhotoBase64 = compressed.split(',')[1];
-      document.getElementById('artistPhotoPreviewImg').src = compressed;
-      document.getElementById('artistPhotoPreview').style.display = 'block';
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-async function saveArtistPhoto() {
-  if (!pendingArtistPhotoBase64) { alert('Please select a photo first.'); return; }
-  const btn = document.querySelector('#artistPhotoModal .btn-primary');
-  btn.textContent = 'Uploading…'; btn.disabled = true;
-  try {
-    const res = await api('upload_image', {
-      imageData: pendingArtistPhotoBase64,
-      mimeType: 'image/jpeg',
-      workId: 'ARTIST-PHOTO'
-    });
-    if (res.success) {
-      // Save URL to a special record in Works sheet
-      await api('update_work', {
-        id: 'ARTIST-PHOTO',
-        imageUrl: res.url,
-        driveFileId: res.fileId,
-        title: 'Artist Photo',
-        visibility: 'Published'
-      });
-      closeModal('artistPhotoModal');
-      alert('Artist photo updated successfully.');
-    } else {
-      alert('Upload failed: ' + res.error);
-    }
-  } catch(e) {
-    alert('Error: ' + e.message);
-  }
-  btn.textContent = 'Save Artist Photo'; btn.disabled = false;
+  if (res.success) { closeModal('eventModal'); loadEvents(); showToast('Event deleted'); }
+  else alert(res.error || 'Delete failed');
 }
 </script>
 </body>
