@@ -147,9 +147,8 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwmyK0ljJsRQG3XXsWIAwr_cNyMuwnvgYblWskEZlrDgWVf4pMSiSut4yK_T68cwBePOA/exec';
 
 function imgUrl(work) {
-  return work['Drive File ID']
-    ? `https://drive.google.com/thumbnail?id=${work['Drive File ID']}&sz=w1200`
-    : work['Image URL'];
+  if (!work['Drive File ID']) return work['Image URL'] || '';
+  return `https://drive.google.com/thumbnail?id=${work['Drive File ID']}&sz=w1200&authuser=0`;
 }
 
 function sizeStr(w, h) { return (w && h) ? `${w}″ × ${h}″` : ''; }
@@ -163,94 +162,100 @@ function filterByMedium(medium, btn) {
   });
 }
 
-async function loadWorks() {
-  try {
-    const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'get_public_works' }) });
-    const d = await r.json();
-    if (!d.success || !d.data) return;
-    const works = d.data;
+async function loadAll() {
+  const [worksResp, eventsResp] = await Promise.allSettled([
+    fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'get_public_works' }) }),
+    fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'get_events' }) })
+  ]);
 
-    // Artist photo
-    const artistWork = works.find(w => w['Artist Photo'] === 'Yes');
-    if (artistWork) {
-      document.getElementById('artistPhotoImg').src = imgUrl(artistWork);
-    }
+  if (worksResp.status === 'fulfilled') {
+    try {
+      const d = await worksResp.value.json();
+      if (!d.success || !d.data) return;
+      const works = d.data;
 
-    // Featured (max 3)
-    const featured = works.filter(w => w['Featured'] === 'Yes').slice(0, 3);
-    const featEl = document.getElementById('featuredList');
-    if (featured.length) {
-      featEl.innerHTML = featured.map((w, i) => {
-        const url = imgUrl(w);
-        const size = sizeStr(w['Width (in)'], w['Height (in)']);
-        const cap = `${w['Title']} · ${w['Medium']}${size ? ' · ' + size : ''}`;
-        return `<div class="mag-item">
-          <div class="mag-img">
-            <img src="${url}" alt="${w['Title']}" onclick="openLightbox('${url}','${cap}')" loading="lazy"/>
-          </div>
-          <div>
-            <div class="mag-num">0${i + 1}</div>
-            <div class="mag-title-row"><span class="dot ${availDot(w['Availability'])}"></span><div class="mag-title">${w['Title']}</div></div>
-            <div class="mag-medium">${w['Medium']}${size ? ' · ' + size : ''}</div>
-            <p class="mag-desc">${w['CJ Notes'] || ''}</p>
-            <a href="contact.html?painting=${encodeURIComponent(w['Title'])}" class="mag-action">Inquire about this work →</a>
-          </div>
-        </div>`;
-      }).join('');
-    } else {
-      featEl.innerHTML = '<div style="padding:16px 0;color:var(--pebble);font-size:.82rem;">No featured works set — update in admin.</div>';
-    }
+      // Artist photo
+      const artistWork = works.find(w => w['Artist Photo'] === 'Yes');
+      if (artistWork) {
+        document.getElementById('artistPhotoImg').src = imgUrl(artistWork);
+      }
 
-    // Gallery (max 9)
-    const gallery = works.filter(w => w['Show in Gallery'] === 'Yes').slice(0, 9);
-    const gridEl = document.getElementById('galleryGrid');
-    if (gallery.length) {
-      gridEl.innerHTML = gallery.map(w => {
-        const url = imgUrl(w);
-        const size = sizeStr(w['Width (in)'], w['Height (in)']);
-        const cap = `${w['Title']} · ${w['Medium']}${size ? ' · ' + size : ''}`;
-        return `<div class="art-card" data-medium="${w['Medium'] || ''}" onclick="openLightbox('${url}','${cap}')">
-          <div class="art-card-img${w['Availability'] === 'Sold' ? ' sold' : ''}">
-            <img src="${url}" alt="${w['Title']}" loading="lazy"/>
-          </div>
-          <div class="art-card-body">
-            <div>
-              <div class="art-card-title-row"><span class="dot ${availDot(w['Availability'])}"></span><div class="art-card-title">${w['Title']}</div></div>
-              <div class="art-card-medium">${w['Medium']}${size ? ' · ' + size : ''}</div>
+      // Featured (max 3)
+      const featured = works.filter(w => w['Featured'] === 'Yes').slice(0, 3);
+      const featEl = document.getElementById('featuredList');
+      if (featured.length) {
+        featEl.innerHTML = featured.map((w, i) => {
+          const url = imgUrl(w);
+          const size = sizeStr(w['Width (in)'], w['Height (in)']);
+          const cap = `${w['Title']} · ${w['Medium']}${size ? ' · ' + size : ''}`;
+          // Use CJ Notes if available, otherwise show availability + location
+          const desc = w['CJ Notes'] && w['CJ Notes'].trim()
+            ? w['CJ Notes']
+            : `${w['Medium']}${size ? ' · ' + size : ''}${w['Gallery Location'] && w['Gallery Location'] !== 'Studio' ? ' · Available at ' + w['Gallery Location'] : ''}`;
+          return `<div class="mag-item">
+            <div class="mag-img">
+              <img src="${url}" alt="${w['Title']}" onclick="openLightbox('${url}','${cap}')" loading="lazy"/>
             </div>
-            <a href="contact.html?painting=${encodeURIComponent(w['Title'])}" class="art-card-cta" onclick="event.stopPropagation()">${w['Availability'] === 'Sold' ? 'Request similar' : 'Inquire'}</a>
-          </div>
+            <div>
+              <div class="mag-num">0${i + 1}</div>
+              <div class="mag-title-row"><span class="dot ${availDot(w['Availability'])}"></span><div class="mag-title">${w['Title']}</div></div>
+              <div class="mag-medium">${w['Medium']}${size ? ' · ' + size : ''}</div>
+              <p class="mag-desc">${desc}</p>
+              <a href="contact.html?painting=${encodeURIComponent(w['Title'])}" class="mag-action">Inquire about this work →</a>
+            </div>
+          </div>`;
+        }).join('');
+      } else {
+        featEl.innerHTML = '<div style="padding:16px 0;color:var(--pebble);font-size:.82rem;">No featured works set — update in admin.</div>';
+      }
+
+      // Gallery (max 9)
+      const gallery = works.filter(w => w['Show in Gallery'] === 'Yes').slice(0, 9);
+      const gridEl = document.getElementById('galleryGrid');
+      if (gallery.length) {
+        gridEl.innerHTML = gallery.map(w => {
+          const url = imgUrl(w);
+          const size = sizeStr(w['Width (in)'], w['Height (in)']);
+          const cap = `${w['Title']} · ${w['Medium']}${size ? ' · ' + size : ''}`;
+          return `<div class="art-card" data-medium="${w['Medium'] || ''}" onclick="openLightbox('${url}','${cap}')">
+            <div class="art-card-img${w['Availability'] === 'Sold' ? ' sold' : ''}">
+              <img src="${url}" alt="${w['Title']}" loading="lazy"/>
+            </div>
+            <div class="art-card-body">
+              <div>
+                <div class="art-card-title-row"><span class="dot ${availDot(w['Availability'])}"></span><div class="art-card-title">${w['Title']}</div></div>
+                <div class="art-card-medium">${w['Medium']}${size ? ' · ' + size : ''}</div>
+              </div>
+              <a href="contact.html?painting=${encodeURIComponent(w['Title'])}" class="art-card-cta" onclick="event.stopPropagation()">${w['Availability'] === 'Sold' ? 'Request similar' : 'Inquire'}</a>
+            </div>
+          </div>`;
+        }).join('');
+      } else {
+        gridEl.innerHTML = '<div style="padding:16px 0;color:var(--pebble);font-size:.82rem;">No gallery works set — update in admin.</div>';
+      }
+
+    } catch(e) { console.error('loadWorks error:', e); }
+  }
+
+  if (eventsResp.status === 'fulfilled') {
+    try {
+      const d = await eventsResp.value.json();
+      if (!d.success || !d.data) return;
+      const upcoming = d.data.filter(e => e['Status'] === 'Upcoming' || e['Status'] === 'Ongoing');
+      if (!upcoming.length) return;
+      document.getElementById('eventsAside').innerHTML = upcoming.slice(0, 2).map(ev => {
+        const dt = ev['Start Date'] ? new Date(ev['Start Date']) : null;
+        const day = dt ? dt.getDate() : '—';
+        const mon = dt ? dt.toLocaleString('default', { month: 'short' }).toUpperCase() : '—';
+        return `<div class="event-card">
+          <div class="event-date"><div class="eday">${day}</div><div class="emon">${mon}</div></div>
+          <div><div class="event-name">${ev['Event Name']}</div><div class="event-venue">${ev['Venue Name'] || ''} · ${ev['City'] || ''}</div></div>
         </div>`;
       }).join('');
-    } else {
-      gridEl.innerHTML = '<div style="padding:16px 0;color:var(--pebble);font-size:.82rem;">No gallery works set — update in admin.</div>';
-    }
-
-  } catch(e) { console.error('loadWorks error:', e); }
+    } catch(e) {}
+  }
 }
 
-async function loadEvents() {
-  try {
-    const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'get_events' }) });
-    const d = await r.json();
-    if (!d.success || !d.data) return;
-    const upcoming = d.data.filter(e => e['Status'] === 'Upcoming' || e['Status'] === 'Ongoing');
-    if (!upcoming.length) return;
-    const c = document.getElementById('eventsAside');
-    c.innerHTML = upcoming.slice(0, 2).map(ev => {
-      const dt = ev['Start Date'] ? new Date(ev['Start Date']) : null;
-      const day = dt ? dt.getDate() : '—';
-      const mon = dt ? dt.toLocaleString('default', { month: 'short' }).toUpperCase() : '—';
-      return `<div class="event-card">
-        <div class="event-date"><div class="eday">${day}</div><div class="emon">${mon}</div></div>
-        <div><div class="event-name">${ev['Event Name']}</div><div class="event-venue">${ev['Venue Name'] || ''} · ${ev['City'] || ''}</div></div>
-      </div>`;
-    }).join('');
-  } catch(e) {}
-}
-
-loadWorks();
-loadEvents();
+loadAll();
 </script>
 </body>
-</html>
