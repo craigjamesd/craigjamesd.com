@@ -8,13 +8,12 @@
 <style>
 .works-header{padding:20px var(--pad) 0;}
 .works-title{font-family:var(--display);font-size:1.1rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);}
-
 /* FEATURED */
 .works-featured{padding:20px var(--pad) 0;}
-.featured-label{font-family:var(--sans);font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--pebble);padding-bottom:10px;border-bottom:1px solid var(--stone);margin-bottom:0;}
+.featured-label{font-family:var(--sans);font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--pebble);padding-bottom:10px;border-bottom:1px solid var(--stone);}
 .mag-item{display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start;padding:24px 0;border-bottom:1px solid var(--stone);}
 .mag-item:last-child{border-bottom:none;}
-.mag-img{aspect-ratio:4/3;border:1px solid var(--stone);overflow:hidden;cursor:zoom-in;}
+.mag-img{aspect-ratio:4/3;border:1px solid var(--stone);overflow:hidden;cursor:zoom-in;background:var(--linen);}
 .mag-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;}
 .mag-item:hover .mag-img img{transform:scale(1.03);}
 .mag-num{font-family:var(--serif);font-size:1.8rem;color:var(--stone);line-height:1;margin-bottom:6px;}
@@ -23,7 +22,6 @@
 .mag-medium{font-family:var(--sans);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pebble);margin-bottom:12px;}
 .mag-desc{font-family:var(--body);font-size:.84rem;line-height:1.85;color:var(--drift);margin-bottom:14px;}
 .mag-action{font-family:var(--sans);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--stone);padding-bottom:1px;text-decoration:none;}
-
 /* GRID */
 .works-grid-section{padding:24px var(--pad) 32px;border-top:2px solid var(--ink);margin-top:24px;}
 .grid-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
@@ -44,17 +42,15 @@
 .art-card-title{font-family:var(--serif);font-style:italic;font-size:.88rem;color:var(--ink);}
 .art-card-medium{font-family:var(--sans);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--pebble);}
 .art-card-cta{font-family:var(--sans);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--drift);white-space:nowrap;border-bottom:1px solid var(--stone);padding-bottom:1px;text-decoration:none;flex-shrink:0;}
-
 /* ABOUT STRIP */
 .works-about{display:grid;grid-template-columns:300px 1fr;border-top:2px solid var(--ink);background:var(--paper);}
-.about-photo-col{border-right:1px solid var(--stone);position:relative;overflow:hidden;background:var(--linen);}
+.about-photo-col{border-right:1px solid var(--stone);overflow:hidden;background:var(--linen);}
 .about-photo-col img{width:100%;display:block;object-fit:cover;}
-.about-photo-cap{position:absolute;bottom:0;left:0;right:0;background:var(--navy);padding:11px 16px;}
+.about-photo-cap{background:var(--navy);padding:11px 16px;}
 .apc-name{font-family:var(--display);font-size:.82rem;color:rgba(255,255,255,.85);letter-spacing:.18em;}
 .apc-sub{font-family:var(--sans);font-size:.44rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);}
 .about-details-col{padding:28px 32px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;}
 .events-label{font-family:var(--sans);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--pebble);margin-bottom:12px;}
-
 @media(max-width:900px){
   .mag-item{grid-template-columns:1fr;gap:14px;}
   .mag-num{display:none;}
@@ -75,16 +71,13 @@
 <div class="mob-drawer" id="mobDrawer"><div class="mob-logo">CJ Davitt</div><button class="mob-close" id="mobClose">✕</button><ul class="mob-links"><li><a href="works.html">Works</a></li><li><a href="commissions.html">Commissions</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
 <nav class="nav"><a href="index.html" class="nav-brand">CJ Davitt</a><div class="nav-links"><a href="works.html" class="nav-link active">Works</a><a href="commissions.html" class="nav-link">Commissions</a><a href="about.html" class="nav-link">About</a><a href="contact.html" class="nav-link">Contact</a><a href="contact.html" class="nav-link cta">Inquire</a></div><button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button></nav>
 
-<!-- 1. FEATURED WORKS -->
 <div class="works-header"><div class="works-title">Selected Works</div></div>
+
 <div class="works-featured">
   <div class="featured-label">Featured</div>
-  <div id="featuredList">
-    <div style="padding:24px 0;color:var(--pebble);font-size:.82rem;">Loading…</div>
-  </div>
+  <div id="featuredList"><div style="padding:24px 0;color:var(--pebble);font-size:.82rem;">Loading…</div></div>
 </div>
 
-<!-- 2. MORE WORKS GRID -->
 <div class="works-grid-section">
   <div class="grid-header">
     <div class="grid-label">More Works</div>
@@ -95,12 +88,9 @@
       <button class="wf" onclick="filterByMedium('Colored Pencil',this)">Colored Pencil</button>
     </div>
   </div>
-  <div class="art-grid" id="galleryGrid">
-    <div style="padding:24px 0;color:var(--pebble);font-size:.82rem;">Loading…</div>
-  </div>
+  <div class="art-grid" id="galleryGrid"><div style="padding:24px 0;color:var(--pebble);font-size:.82rem;">Loading…</div></div>
 </div>
 
-<!-- 3. ABOUT + EVENTS -->
 <div class="works-about">
   <div class="about-photo-col">
     <img id="artistPhotoImg" src="" alt="CJ Davitt"/>
@@ -122,17 +112,13 @@
     <div>
       <div class="events-label">Upcoming Events</div>
       <div id="eventsAside">
-        <div class="event-card">
-          <div class="event-date"><div class="eday">—</div><div class="emon">—</div></div>
-          <div><div class="event-name">No upcoming events</div><div class="event-venue">Check back soon</div></div>
-        </div>
+        <div class="event-card"><div class="event-date"><div class="eday">—</div><div class="emon">—</div></div><div><div class="event-name">No upcoming events</div><div class="event-venue">Check back soon</div></div></div>
       </div>
     </div>
   </div>
 </div>
 
 <div class="press" style="background:var(--navy);"><span class="press-lbl">As Seen In</span><div class="press-div"></div><span class="press-item"><strong>On The Water Magazine</strong> — 2026 Angler's Almanac · Featured Angling Artist</span><div class="press-div"></div><span class="press-item">Frederick Gallery &nbsp;·&nbsp; Autumn Elise Gallery &nbsp;·&nbsp; Noon Designs</span></div>
-
 <footer>
   <div class="ft-grid">
     <div><div class="ft-logo">CJ Davitt</div><div class="ft-sub">Angling Artist · Sandy Hook, NJ</div><p class="ft-tag">Original oil paintings rooted in the coast, the catch, and the quiet beauty of life by the water.</p></div>
@@ -146,26 +132,21 @@
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwmyK0ljJsRQG3XXsWIAwr_cNyMuwnvgYblWskEZlrDgWVf4pMSiSut4yK_T68cwBePOA/exec';
 
-function imgUrl(work) {
-  if (!work['Drive File ID']) return work['Image URL'] || '';
-  return `https://drive.google.com/thumbnail?id=${work['Drive File ID']}&sz=w1200&authuser=0`;
-}
-
-function sizeStr(w, h) { return (w && h) ? `${w}″ × ${h}″` : ''; }
-function availDot(a) { return a === 'Sold' ? 'dot-sold' : 'dot-av'; }
+function sizeStr(w,h){ return (w&&h) ? `${w}″ × ${h}″` : ''; }
+function dot(a){ return a==='Sold' ? 'dot-sold' : 'dot-av'; }
 
 function filterByMedium(medium, btn) {
   document.querySelectorAll('.wf').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.art-card').forEach(el => {
-    el.style.display = (medium === 'all' || el.dataset.medium === medium) ? '' : 'none';
+    el.style.display = (medium==='all' || el.dataset.medium===medium) ? '' : 'none';
   });
 }
 
 async function loadAll() {
   const [worksResp, eventsResp] = await Promise.allSettled([
-    fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'get_public_works' }) }),
-    fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'get_events' }) })
+    fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'get_public_works'})}),
+    fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'get_events'})})
   ]);
 
   if (worksResp.status === 'fulfilled') {
@@ -175,31 +156,28 @@ async function loadAll() {
       const works = d.data;
 
       // Artist photo
-      const artistWork = works.find(w => w['Artist Photo'] === 'Yes');
-      if (artistWork) {
-        document.getElementById('artistPhotoImg').src = imgUrl(artistWork);
+      const artistWork = works.find(w => w['Artist Photo']==='Yes');
+      if (artistWork && artistWork['Image URL']) {
+        document.getElementById('artistPhotoImg').src = artistWork['Image URL'];
       }
 
       // Featured (max 3)
-      const featured = works.filter(w => w['Featured'] === 'Yes').slice(0, 3);
+      const featured = works.filter(w => w['Featured']==='Yes').slice(0,3);
       const featEl = document.getElementById('featuredList');
       if (featured.length) {
-        featEl.innerHTML = featured.map((w, i) => {
-          const url = imgUrl(w);
+        featEl.innerHTML = featured.map((w,i) => {
+          const url  = w['Image URL'] || '';
           const size = sizeStr(w['Width (in)'], w['Height (in)']);
-          const cap = `${w['Title']} · ${w['Medium']}${size ? ' · ' + size : ''}`;
-          // Use CJ Notes if available, otherwise show availability + location
+          const cap  = `${w['Title']} · ${w['Medium']}${size?' · '+size:''}`;
           const desc = w['CJ Notes'] && w['CJ Notes'].trim()
             ? w['CJ Notes']
-            : `${w['Medium']}${size ? ' · ' + size : ''}${w['Gallery Location'] && w['Gallery Location'] !== 'Studio' ? ' · Available at ' + w['Gallery Location'] : ''}`;
+            : `${w['Medium']}${size?' · '+size:''}${w['Gallery Location']&&w['Gallery Location']!=='Studio'?' · '+w['Gallery Location']:''}`;
           return `<div class="mag-item">
-            <div class="mag-img">
-              <img src="${url}" alt="${w['Title']}" onclick="openLightbox('${url}','${cap}')" loading="lazy"/>
-            </div>
+            <div class="mag-img"><img src="${url}" alt="${w['Title']}" onclick="openLightbox('${url}','${cap}')" loading="lazy"/></div>
             <div>
-              <div class="mag-num">0${i + 1}</div>
-              <div class="mag-title-row"><span class="dot ${availDot(w['Availability'])}"></span><div class="mag-title">${w['Title']}</div></div>
-              <div class="mag-medium">${w['Medium']}${size ? ' · ' + size : ''}</div>
+              <div class="mag-num">0${i+1}</div>
+              <div class="mag-title-row"><span class="dot ${dot(w['Availability'])}"></span><div class="mag-title">${w['Title']}</div></div>
+              <div class="mag-medium">${w['Medium']}${size?' · '+size:''}</div>
               <p class="mag-desc">${desc}</p>
               <a href="contact.html?painting=${encodeURIComponent(w['Title'])}" class="mag-action">Inquire about this work →</a>
             </div>
@@ -210,46 +188,45 @@ async function loadAll() {
       }
 
       // Gallery (max 9)
-      const gallery = works.filter(w => w['Show in Gallery'] === 'Yes').slice(0, 9);
+      const gallery = works.filter(w => w['Show in Gallery']==='Yes').slice(0,9);
       const gridEl = document.getElementById('galleryGrid');
       if (gallery.length) {
         gridEl.innerHTML = gallery.map(w => {
-          const url = imgUrl(w);
+          const url  = w['Image URL'] || '';
           const size = sizeStr(w['Width (in)'], w['Height (in)']);
-          const cap = `${w['Title']} · ${w['Medium']}${size ? ' · ' + size : ''}`;
-          return `<div class="art-card" data-medium="${w['Medium'] || ''}" onclick="openLightbox('${url}','${cap}')">
-            <div class="art-card-img${w['Availability'] === 'Sold' ? ' sold' : ''}">
+          const cap  = `${w['Title']} · ${w['Medium']}${size?' · '+size:''}`;
+          return `<div class="art-card" data-medium="${w['Medium']||''}" onclick="openLightbox('${url}','${cap}')">
+            <div class="art-card-img${w['Availability']==='Sold'?' sold':''}">
               <img src="${url}" alt="${w['Title']}" loading="lazy"/>
             </div>
             <div class="art-card-body">
               <div>
-                <div class="art-card-title-row"><span class="dot ${availDot(w['Availability'])}"></span><div class="art-card-title">${w['Title']}</div></div>
-                <div class="art-card-medium">${w['Medium']}${size ? ' · ' + size : ''}</div>
+                <div class="art-card-title-row"><span class="dot ${dot(w['Availability'])}"></span><div class="art-card-title">${w['Title']}</div></div>
+                <div class="art-card-medium">${w['Medium']}${size?' · '+size:''}</div>
               </div>
-              <a href="contact.html?painting=${encodeURIComponent(w['Title'])}" class="art-card-cta" onclick="event.stopPropagation()">${w['Availability'] === 'Sold' ? 'Request similar' : 'Inquire'}</a>
+              <a href="contact.html?painting=${encodeURIComponent(w['Title'])}" class="art-card-cta" onclick="event.stopPropagation()">${w['Availability']==='Sold'?'Request similar':'Inquire'}</a>
             </div>
           </div>`;
         }).join('');
       } else {
         gridEl.innerHTML = '<div style="padding:16px 0;color:var(--pebble);font-size:.82rem;">No gallery works set — update in admin.</div>';
       }
-
-    } catch(e) { console.error('loadWorks error:', e); }
+    } catch(e) { console.error('works error', e); }
   }
 
   if (eventsResp.status === 'fulfilled') {
     try {
       const d = await eventsResp.value.json();
       if (!d.success || !d.data) return;
-      const upcoming = d.data.filter(e => e['Status'] === 'Upcoming' || e['Status'] === 'Ongoing');
+      const upcoming = d.data.filter(e => e['Status']==='Upcoming' || e['Status']==='Ongoing');
       if (!upcoming.length) return;
-      document.getElementById('eventsAside').innerHTML = upcoming.slice(0, 2).map(ev => {
-        const dt = ev['Start Date'] ? new Date(ev['Start Date']) : null;
+      document.getElementById('eventsAside').innerHTML = upcoming.slice(0,2).map(ev => {
+        const dt  = ev['Start Date'] ? new Date(ev['Start Date']) : null;
         const day = dt ? dt.getDate() : '—';
-        const mon = dt ? dt.toLocaleString('default', { month: 'short' }).toUpperCase() : '—';
+        const mon = dt ? dt.toLocaleString('default',{month:'short'}).toUpperCase() : '—';
         return `<div class="event-card">
           <div class="event-date"><div class="eday">${day}</div><div class="emon">${mon}</div></div>
-          <div><div class="event-name">${ev['Event Name']}</div><div class="event-venue">${ev['Venue Name'] || ''} · ${ev['City'] || ''}</div></div>
+          <div><div class="event-name">${ev['Event Name']}</div><div class="event-venue">${ev['Venue Name']||''} · ${ev['City']||''}</div></div>
         </div>`;
       }).join('');
     } catch(e) {}
@@ -259,3 +236,4 @@ async function loadAll() {
 loadAll();
 </script>
 </body>
+</html>

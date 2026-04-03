@@ -89,30 +89,22 @@
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwmyK0ljJsRQG3XXsWIAwr_cNyMuwnvgYblWskEZlrDgWVf4pMSiSut4yK_T68cwBePOA/exec';
 
-function imgUrl(work) {
-  return work['Drive File ID']
-    ? `https://drive.google.com/thumbnail?id=${work['Drive File ID']}&sz=w1200`
-    : work['Image URL'];
-}
-
 async function loadCommissionWorks() {
   try {
-    const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'get_public_works' }) });
+    const r = await fetch(SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'get_public_works'})});
     const d = await r.json();
     if (!d.success || !d.data) return;
-    const works = d.data.filter(w => w['Show on Commissions'] === 'Yes').slice(0, 4);
+    const works = d.data.filter(w => w['Show on Commissions']==='Yes').slice(0,4);
     if (!works.length) return;
-    const grid = document.getElementById('commGrid');
-    grid.innerHTML = works.map(w => {
-      const url = imgUrl(w);
+    document.getElementById('commGrid').innerHTML = works.map(w => {
+      const url = w['Image URL'] || '';
       return `<img class="comm-img" src="${url}" alt="${w['Title']}"
         onclick="openLightbox('${url}','${w['Title']} · ${w['Medium']}')"
         loading="lazy"/>`;
     }).join('');
-  } catch(e) { console.error('loadCommissionWorks error:', e); }
+  } catch(e) { console.error('commissions error', e); }
 }
 
 loadCommissionWorks();
 </script>
 </body>
-</html>
