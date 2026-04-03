@@ -83,14 +83,62 @@
     </div>
   </div>
 </div>
-<div class="hero-cap"><span style="font-family:var(--body);font-style:italic;font-size:.7rem;color:var(--pebble);">Row No. 5 &nbsp;·&nbsp; oil on canvas, 24″ × 24″</span><a href="works.html" class="small-cta">View Works →</a></div>
+<div class="hero-cap"><span id="heroCap" style="font-family:var(--body);font-style:italic;font-size:.7rem;color:var(--pebble);">Row No. 5 &nbsp;·&nbsp; oil on canvas, 24″ × 24″</span><a href="works.html" class="small-cta">View Works →</a></div>
 <div class="press" style="background:var(--navy);"><span class="press-lbl">As Seen In</span><div class="press-div"></div><span class="press-item"><strong>On The Water Magazine</strong> — 2026 Angler's Almanac · Featured Angling Artist</span><div class="press-div"></div><span class="press-item">Frederick Gallery &nbsp;·&nbsp; Autumn Elise Gallery &nbsp;·&nbsp; Noon Designs</span></div>
 <footer><div class="ft-grid"><div><div class="ft-logo">CJ Davitt</div><div class="ft-sub">Angling Artist · Sandy Hook, NJ</div><p class="ft-tag">Original oil paintings rooted in the coast, the catch, and the quiet beauty of life by the water.</p></div><div><div class="ft-col-lbl">Navigate</div><a href="works.html" class="ft-link">Works</a><a href="commissions.html" class="ft-link">Commissions</a><a href="about.html" class="ft-link">About</a><a href="contact.html" class="ft-link">Contact</a></div><div><div class="ft-col-lbl">Galleries</div><span class="ft-link">Frederick Gallery · Spring Lake</span><span class="ft-link">Autumn Elise · Rumson</span><span class="ft-link">Noon Designs · Bay Head</span></div></div><div class="ft-bot"><span class="ft-copy">© 2026 CJ Davitt · craigjamesd.com</span><a href="https://instagram.com/craigjamesd" target="_blank" class="ft-ig">@craigjamesd</a></div></footer>
 <script src="shared.js"></script>
 <script>
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwmyK0ljJsRQG3XXsWIAwr_cNyMuwnvgYblWskEZlrDgWVf4pMSiSut4yK_T68cwBePOA/exec';
-async function loadEvents(){try{const r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'get_events',password:'cjdavitt2026'})});const d=await r.json();if(!d.success||!d.data)return;const up=d.data.filter(e=>e['Status']==='Upcoming'||e['Status']==='Ongoing');if(!up.length)return;const c=document.getElementById('upcomingEvents');c.innerHTML='';up.slice(0,2).forEach(ev=>{const dt=ev['Start Date']?new Date(ev['Start Date']):null;const day=dt?dt.getDate():'—';const mon=dt?dt.toLocaleString('default',{month:'short'}).toUpperCase():'—';c.innerHTML+=`<div class="event-card" style="padding:14px 16px;"><div class="event-date" style="padding:8px 12px;min-width:48px;"><div style="font-family:var(--display);font-size:1.1rem;line-height:1;">${day}</div><div style="font-family:var(--sans);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;opacity:.5;">${mon}</div></div><div><div style="font-family:var(--sans);font-size:.78rem;letter-spacing:.04em;color:var(--ink);font-weight:500;margin-bottom:3px;">${ev['Event Name']}</div><div style="font-family:var(--body);font-style:italic;font-size:.76rem;color:var(--drift);">${ev['Venue Name']||''} · ${ev['City']||''}</div></div></div>`;});}catch(e){}}
-loadEvents();
+
+async function loadSiteData(){
+  try{
+    const r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'get_public_works',password:'cjdavitt2026'})});
+    const d=await r.json();
+    if(d.success&&d.data){
+      const works=d.data;
+
+      // Hero image
+      const hero=works.find(w=>w['Hero Image']==='Yes');
+      if(hero&&hero['Image URL']){
+        const img=document.getElementById('heroImg');
+        img.src=hero['Image URL'];
+        img.onclick=()=>openLightbox(hero['Image URL'],hero['Title']+' · '+hero['Medium']);
+        document.getElementById('heroTitle').textContent=hero['Title'];
+        document.getElementById('heroMeta').textContent=hero['Medium']+(hero['Width (in)']?' · '+hero['Width (in)']+'″ × '+hero['Height (in)']+'″':'');
+        document.getElementById('heroCap').textContent=hero['Title']+' · '+hero['Medium']+(hero['Width (in)']?' · '+hero['Width (in)']+'″ × '+hero['Height (in)']+'″':'');
+      }
+
+      // Thumbnails — featured works
+      const featured=works.filter(w=>w['Featured']==='Yes').slice(0,3);
+      const thumbs=document.getElementById('heroThumbs');
+      if(featured.length){
+        thumbs.innerHTML=featured.map(w=>`
+          <div class="thumb" onclick="openLightbox('${w['Image URL']}','${w['Title']}')">
+            <img src="${w['Image URL']}" alt="${w['Title']}" loading="lazy"/>
+          </div>`).join('');
+      }
+    }
+  }catch(e){}
+
+  // Events
+  try{
+    const r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'get_events',password:'cjdavitt2026'})});
+    const d=await r.json();
+    if(!d.success||!d.data)return;
+    const up=d.data.filter(e=>e['Status']==='Upcoming'||e['Status']==='Ongoing');
+    if(!up.length)return;
+    const c=document.getElementById('upcomingEvents');
+    c.innerHTML='';
+    up.slice(0,2).forEach(ev=>{
+      const dt=ev['Start Date']?new Date(ev['Start Date']):null;
+      const day=dt?dt.getDate():'—';
+      const mon=dt?dt.toLocaleString('default',{month:'short'}).toUpperCase():'—';
+      c.innerHTML+=`<div class="event-card" style="padding:14px 16px;"><div class="event-date" style="padding:8px 12px;min-width:48px;"><div style="font-family:var(--display);font-size:1.1rem;line-height:1;">${day}</div><div style="font-family:var(--sans);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;opacity:.5;">${mon}</div></div><div><div style="font-family:var(--sans);font-size:.78rem;letter-spacing:.04em;color:var(--ink);font-weight:500;margin-bottom:3px;">${ev['Event Name']}</div><div style="font-family:var(--body);font-style:italic;font-size:.76rem;color:var(--drift);">${ev['Venue Name']||''} · ${ev['City']||''}</div></div></div>`;
+    });
+  }catch(e){}
+}
+
+loadSiteData();
 </script>
 </body>
 </html>

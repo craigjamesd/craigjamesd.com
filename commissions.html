@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -75,11 +74,11 @@
   </div>
   <div class="comm-right">
     <div class="label" style="margin-bottom:4px;">Recent Work</div>
-    <div class="comm-grid">
-      <img class="comm-img" src="images/the-drifter.jpg" alt="The Drifter" onclick="openLightbox(this.src,'The Drifter · oil on canvas, 30″ × 40″')"/>
-      <img class="comm-img" src="images/bushel-of-blues.jpg" alt="Bushel of Blues" onclick="openLightbox(this.src,'Bushel of Blues · oil on canvas, 24″ × 36″')"/>
-      <img class="comm-img" src="images/six-bobbers.jpg" alt="Six Bobbers" onclick="openLightbox(this.src,'Six Bobbers · oil on canvas, 36″ × 36″')"/>
-      <img class="comm-img" src="images/wrong-cork.jpg" alt="Wrong Cork" onclick="openLightbox(this.src,'Wrong Cork · oil on canvas, 30″ × 24″')"/>
+    <div class="comm-grid" id="commGrid">
+      <div class="comm-img" style="background:var(--linen);"></div>
+      <div class="comm-img" style="background:var(--linen);"></div>
+      <div class="comm-img" style="background:var(--linen);"></div>
+      <div class="comm-img" style="background:var(--linen);"></div>
     </div>
     <p class="comm-note">Subjects range from bobbers and boats to marine life, open water, and portraits.</p>
   </div>
@@ -87,5 +86,23 @@
 
 <footer><div class="ft-grid"><div><div class="ft-logo">CJ Davitt</div><div class="ft-sub">Angling Artist · Sandy Hook, NJ</div><p class="ft-tag">Original oil paintings rooted in the coast, the catch, and the quiet beauty of life by the water.</p></div><div><div class="ft-col-lbl">Navigate</div><a href="index.html" class="ft-link">Home</a><a href="works.html" class="ft-link">Works</a><a href="about.html" class="ft-link">About</a><a href="contact.html" class="ft-link">Contact</a></div><div><div class="ft-col-lbl">Galleries</div><span class="ft-link">Frederick Gallery · Spring Lake</span><span class="ft-link">Autumn Elise · Rumson</span><span class="ft-link">Noon Designs · Bay Head</span></div></div><div class="ft-bot"><span class="ft-copy">© 2026 CJ Davitt · craigjamesd.com</span><a href="https://instagram.com/craigjamesd" target="_blank" class="ft-ig">@craigjamesd</a></div></footer>
 <script src="shared.js"></script>
+<script>
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwmyK0ljJsRQG3XXsWIAwr_cNyMuwnvgYblWskEZlrDgWVf4pMSiSut4yK_T68cwBePOA/exec';
+async function loadCommissionWorks(){
+  try{
+    const r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'get_public_works',password:'cjdavitt2026'})});
+    const d=await r.json();
+    if(!d.success||!d.data)return;
+    const works=d.data.filter(w=>w['Show on Commissions']==='Yes').slice(0,4);
+    if(!works.length)return;
+    const grid=document.getElementById('commGrid');
+    grid.innerHTML=works.map(w=>`
+      <img class="comm-img" src="${w['Image URL']}" alt="${w['Title']}"
+           onclick="openLightbox('${w['Image URL']}','${w['Title']} · ${w['Medium']}')"
+           onerror="this.style.background='var(--linen)';this.src=''"/>`).join('');
+  }catch(e){}
+}
+loadCommissionWorks();
+</script>
 </body>
 </html>
