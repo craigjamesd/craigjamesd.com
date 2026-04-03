@@ -234,7 +234,8 @@ img{max-width:100%;display:block;}
 
   <!-- WORKS PANEL -->
   <div class="panel" id="panel-works">
-    <button class="btn btn-primary btn-block" style="margin-bottom:12px;" onclick="openAddWork()">+ Add New Painting</button>
+    <button class="btn btn-primary btn-block" style="margin-bottom:8px;" onclick="openAddWork()">+ Add New Painting</button>
+    <button class="btn btn-secondary btn-block" style="margin-bottom:12px;" onclick="openArtistPhoto()">🖼 Update Artist Photo</button>
     <!-- SLOT SUMMARY -->
     <div id="slotSummary" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;"></div>
     <div class="filter-bar">
@@ -1143,6 +1144,89 @@ function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2800);
+}
+</script>
+<!-- ARTIST PHOTO MODAL -->
+<div class="modal-backdrop" id="artistPhotoModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Update Artist Photo</div>
+    <p style="font-size:.8rem;color:var(--pebble);margin-bottom:16px;">This photo appears on the About page and Works sidebar.</p>
+    <div class="form-group">
+      <div id="artistPhotoPreview" style="display:none;margin-bottom:8px;">
+        <img id="artistPhotoPreviewImg" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;display:block;"/>
+      </div>
+      <input type="file" id="artistPhotoInput" accept="image/*" capture="environment" style="display:none;" onchange="handleArtistPhotoSelect(event)"/>
+      <button class="btn btn-secondary btn-block" onclick="document.getElementById('artistPhotoInput').click()">📷 Select Photo</button>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="saveArtistPhoto()">Save Artist Photo</button>
+      <button class="btn btn-secondary" onclick="closeModal('artistPhotoModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let pendingArtistPhotoBase64 = null;
+
+function openArtistPhoto() {
+  pendingArtistPhotoBase64 = null;
+  document.getElementById('artistPhotoPreview').style.display = 'none';
+  document.getElementById('artistPhotoInput').value = '';
+  openModal('artistPhotoModal');
+}
+
+function handleArtistPhotoSelect(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const MAX = 1200;
+      let w = img.width, h = img.height;
+      if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const compressed = canvas.toDataURL('image/jpeg', 0.85);
+      pendingArtistPhotoBase64 = compressed.split(',')[1];
+      document.getElementById('artistPhotoPreviewImg').src = compressed;
+      document.getElementById('artistPhotoPreview').style.display = 'block';
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function saveArtistPhoto() {
+  if (!pendingArtistPhotoBase64) { alert('Please select a photo first.'); return; }
+  const btn = document.querySelector('#artistPhotoModal .btn-primary');
+  btn.textContent = 'Uploading…'; btn.disabled = true;
+  try {
+    const res = await api('upload_image', {
+      imageData: pendingArtistPhotoBase64,
+      mimeType: 'image/jpeg',
+      workId: 'ARTIST-PHOTO'
+    });
+    if (res.success) {
+      // Save URL to a special record in Works sheet
+      await api('update_work', {
+        id: 'ARTIST-PHOTO',
+        imageUrl: res.url,
+        driveFileId: res.fileId,
+        title: 'Artist Photo',
+        visibility: 'Published'
+      });
+      closeModal('artistPhotoModal');
+      alert('Artist photo updated successfully.');
+    } else {
+      alert('Upload failed: ' + res.error);
+    }
+  } catch(e) {
+    alert('Error: ' + e.message);
+  }
+  btn.textContent = 'Save Artist Photo'; btn.disabled = false;
 }
 </script>
 </body>
